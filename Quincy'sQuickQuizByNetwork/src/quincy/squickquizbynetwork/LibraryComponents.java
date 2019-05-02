@@ -17,6 +17,7 @@
  */
 package quincy.squickquizbynetwork;
 
+//<editor-fold defaultstate="collapsed" desc="Libraries">
 import javax.swing.*;
 import java.awt.event.KeyListener;
 import java.awt.Font;
@@ -28,6 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+//</editor-fold>
 
 public class LibraryComponents
 {
@@ -140,7 +142,10 @@ public class LibraryComponents
         myJFrame.add(myJTextArea);
         myTextAreaLayout.putConstraint(SpringLayout.WEST, myJTextArea, x, SpringLayout.WEST, myJFrame);
         myTextAreaLayout.putConstraint(SpringLayout.NORTH, myJTextArea, y, SpringLayout.NORTH, myJFrame);
+        myJTextArea.setPreferredSize(new Dimension(w, h));
         myJTextArea.setEditable(false);
+        myJTextArea.setLineWrap(true);
+        myJTextArea.setWrapStyleWord(true);
         return myJTextArea;
 
     }
