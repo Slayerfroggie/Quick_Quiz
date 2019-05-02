@@ -37,6 +37,8 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     int maxEntries = 500;
     int numberOfEntries = 0;
+    int currentEntryRow = 0;
+    int currentEntryColumn = 0;
     int currentEntry = 0;
     int questionNumber = 0;
 
@@ -64,11 +66,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     ArrayList<Object[]> questionValues;
 
-    Node root;
+    BinaryNode root;
     //</editor-fold>
 
     String[] sortArray = new String[maxEntries];
-
     String dataFileName = "QuestionData.csv";
 
     public static void main(String[] args)
@@ -171,7 +172,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         btnBinaryTreeDisplay = LibraryComponents.LocateAJButton(this, this, layout, "Display Binary Tree", 890, 452, 170, 22, 15);
     }
 
-    //</editor-fold>\
+    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Event Listeners">
     @Override
@@ -238,7 +239,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     public void mouseClicked(MouseEvent e)
     {
-        currentEntry = table.getSelectedRow();
         displaySelectedQuestion();
     }
 
@@ -301,29 +301,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             arr.set((i + 1), key); // Put the key in its proper location
         }
     }
-    
-    public static void intSelectionSort(ArrayList<Object[]> arr)
-    {
 
-        for (int j = 0; j < arr.size(); j++)
-        {
-            for (int i = j + 1; i < arr.size(); i++)
-            {
-                if ((arr.get(i)[0]).toString().compareToIgnoreCase(arr.get(j)[0].toString()) < 0)
-                {
-                    Object[] words = arr.get(j);
-                    arr.set(j, arr.get(i));
-                    arr.set(i, words);
-                }
-            }
-        }
-    }
-    
     public static void selectionSort(ArrayList<Object[]> arr)
     {
         int i, j, first;
-        Object [] temp;
-        for (i = (arr.size() - 1); i > 0; i -- )
+        Object[] temp;
+        for (i = (arr.size() - 1); i > 0; i--)
         {
             first = 0; //initialize to subscript of first element
             for (j = 1; j <= i; j++) //locate smallest element between positions 1 and i.
@@ -373,7 +356,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
                 dataValues.add(new Object[]
                 {
-                    temp[0], temp[1], temp[2]
+                    temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7]
                 });
 
                 questionModel.fireTableDataChanged();
@@ -402,13 +385,14 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //<editor-fold defaultstate="collapsed" desc="Display Selected Question">
     public void displaySelectedQuestion()
     {
-        txtTopic.setText(QuestionInfo[currentEntry].getTopic());
-        txtQuestion.setText(QuestionInfo[currentEntry].getQuestion());
-        txtAnswerA.setText(QuestionInfo[currentEntry].getAnswerA());
-        txtAnswerB.setText(QuestionInfo[currentEntry].getAnswerB());
-        txtAnswerC.setText(QuestionInfo[currentEntry].getAnswerC());
-        txtAnswerD.setText(QuestionInfo[currentEntry].getAnswerD());
-        txtCorrectAnswer.setText(QuestionInfo[currentEntry].getCorrectAnswer());
+        currentEntry = table.getSelectedRow();
+        txtTopic.setText(dataValues.get(currentEntry)[1].toString());
+        txtQuestion.setText(dataValues.get(currentEntry)[2].toString());
+        txtAnswerA.setText(dataValues.get(currentEntry)[3].toString());
+        txtAnswerB.setText(dataValues.get(currentEntry)[4].toString());
+        txtAnswerC.setText(dataValues.get(currentEntry)[5].toString());
+        txtAnswerD.setText(dataValues.get(currentEntry)[6].toString());
+        txtCorrectAnswer.setText(dataValues.get(currentEntry)[7].toString());
     }
 
     //</editor-fold>
@@ -442,13 +426,11 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         // Configure some of JTable's paramters
         table.isForegroundSet();
         table.setShowHorizontalLines(false);
-        table.setRowSelectionAllowed(true);
-        table.setColumnSelectionAllowed(true);
         add(table);
 
         // Change the text and background colours
-        table.setSelectionForeground(Color.BLACK);
-        table.setSelectionBackground(Color.GREEN);
+        table.setSelectionForeground(new Color(255, 255, 255));
+        table.setSelectionBackground(new Color(0, 102, 0));
 
         // Add the table to a scrolling pane, size and locate
         JScrollPane scrollPane = table.createScrollPaneForTable(table);
@@ -521,16 +503,16 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Binary Tree">
-    class Node
+    class BinaryNode
     {
 
         int key;
         String name;
 
-        Node leftChild;
-        Node rightChild;
+        BinaryNode leftChild;
+        BinaryNode rightChild;
 
-        Node(int key, String name)
+        BinaryNode(int key, String name)
         {
 
             this.key = key;
@@ -553,7 +535,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     {
 
         // Create a new Node and initialize it
-        Node newNode = new Node(key, name);
+        BinaryNode newNode = new BinaryNode(key, name);
 
         // If there is no root this becomes root
         if (root == null)
@@ -566,10 +548,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
             // Set root as the Node we will start
             // with as we traverse the tree
-            Node focusNode = root;
+            BinaryNode focusNode = root;
 
             // Future parent for our new Node
-            Node parent;
+            BinaryNode parent;
 
             while (true)
             {
@@ -618,7 +600,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     // All nodes are visited in ascending order
     // Recursion is used to go to one node and
     // then go to its child nodes and so forth
-    public void inOrderTraverseTree(Node focusNode)
+    public void inOrderTraverseTree(BinaryNode focusNode)
     {
 
         if (focusNode != null)
@@ -637,7 +619,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     }
 
-    public void preorderTraverseTree(Node focusNode)
+    public void preorderTraverseTree(BinaryNode focusNode)
     {
 
         if (focusNode != null)
@@ -652,7 +634,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     }
 
-    public void postOrderTraverseTree(Node focusNode)
+    public void postOrderTraverseTree(BinaryNode focusNode)
     {
 
         if (focusNode != null)
@@ -667,11 +649,11 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     }
 
-    public Node findNode(int key)
+    public BinaryNode findNode(int key)
     {
 
         // Start at the top of the tree
-        Node focusNode = root;
+        BinaryNode focusNode = root;
 
         // While we haven't found the Node
         // keep looking
@@ -706,4 +688,5 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     }
 
     //</editor-fold>
+    
 }
