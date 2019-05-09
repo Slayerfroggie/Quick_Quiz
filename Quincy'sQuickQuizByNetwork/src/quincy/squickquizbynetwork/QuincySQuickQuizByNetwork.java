@@ -32,19 +32,10 @@ import javax.swing.table.AbstractTableModel;
 /**
  * @author Franciscus Sluyter
  */
+
 public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener, MouseListener
 {
-
-    int maxEntries = 500;
-    int numberOfEntries = 0;
-    int currentEntryRow = 0;
-    int currentEntryColumn = 0;
-    int currentEntry = 0;
-    int questionNumber = 0;
-
-    QuestionDataRecord[] QuestionInfo = new QuestionDataRecord[maxEntries];
-
-    //<editor-fold defaultstate="collapsed" desc="Component Variables">
+    //<editor-fold defaultstate="collapsed" desc="Global Variables">
     private JLabel lblSortBy, lblCorrectAns, lblLinkedList, lblBinaryTree,
             lblPreOrder, lblInOrder, lblPostOrder, lblTitle,
             lblQuestionListTitle, lblCurrentQuestionTitle, lblTopic, lblQn,
@@ -55,8 +46,15 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             btnInOrderSave, btnInOrderDisplay,
             btnPostOrderSave, btnPostOrderDisplay, btnBinaryTreeDisplay;
 
-    private JTextArea txtLinkedList, txtBinaryTree, txtTopic, txtQuestion,
+    public JTextArea txtLinkedList, txtBinaryTree, txtTopic, txtQuestion,
             txtAnswerA, txtAnswerB, txtAnswerC, txtAnswerD, txtCorrectAnswer;
+    
+    int maxEntries = 500;
+    int numberOfEntries = 0;
+    int currentEntry = 0;
+    int questionNumber = 0;
+
+    QuestionDataRecord[] QuestionInfo = new QuestionDataRecord[maxEntries];
 
     JTable table;
 
@@ -66,26 +64,30 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     ArrayList<Object[]> questionValues;
 
-    BinaryNode root;
-    //</editor-fold>
-
+    //BinaryNode root;
+    
+    DList dlist;
+    
     String[] sortArray = new String[maxEntries];
+    
     String dataFileName = "QuestionData.csv";
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Runtime">
     public static void main(String[] args)
     {
         QuincySQuickQuizByNetwork QuizSystem = new QuincySQuickQuizByNetwork();
         QuizSystem.run();
 
     }
-
-    //<editor-fold defaultstate="collapsed" desc="Runtime">
+    
     private void run()
     {
         //sets up all the window based functions bounds, title, listeners, etc.
         setBounds(100, 200, 1080, 654);
         setTitle("Quiz By Network");
         getContentPane().setBackground(new Color(255, 254, 220));
+        dlist = new DList("r", 0, 0);
         addWindowListener(new WindowAdapter()
         {
             @Override
@@ -100,6 +102,8 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
                 System.exit(0);
             }
         });
+        
+        //dlist = new DList("r", 0, 0);
 
         displayGUI();
 
@@ -143,7 +147,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         lblAnswerD = LibraryComponents.LocateAJLabel(this, layout, "D:", 630, 278, 435, 40, 16, 230, 237, 215, 0, 102, 0, "left", "top");
     }
 
-    private void displayTextAreas(SpringLayout layout)
+    public void displayTextAreas(SpringLayout layout)
     {
         txtLinkedList = LibraryComponents.LocateAJTextArea(this, layout, 15, 377, 95, 4);
         txtBinaryTree = LibraryComponents.LocateAJTextArea(this, layout, 15, 477, 95, 4);
@@ -170,229 +174,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         btnPostOrderSave = LibraryComponents.LocateAJButton(this, this, layout, "Save", 915, 593, 75, 22, 12);
         btnPostOrderDisplay = LibraryComponents.LocateAJButton(this, this, layout, "Display", 990, 593, 75, 22, 12);
         btnBinaryTreeDisplay = LibraryComponents.LocateAJButton(this, this, layout, "Display Binary Tree", 890, 452, 170, 22, 15);
-    }
-
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Event Listeners">
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        if (e.getSource() == btnQuestionNumber)
-        {
-            bubbleSort(dataValues);
-            table.repaint();
-        }
-
-        if (e.getSource() == btnTopic)
-        {
-            insertionSort(dataValues);
-            table.repaint();
-        }
-
-        if (e.getSource() == btnQuestionSort)
-        {
-            selectionSort(dataValues);
-            table.repaint();
-        }
-
-        if (e.getSource() == btnSendQuestion)
-        {
-
-        }
-
-        if (e.getSource() == btnBinaryTreeDisplay)
-        {
-
-        }
-
-        if (e.getSource() == btnPreOrderSave)
-        {
-
-        }
-
-        if (e.getSource() == btnPreOrderDisplay)
-        {
-
-        }
-
-        if (e.getSource() == btnInOrderSave)
-        {
-
-        }
-
-        if (e.getSource() == btnInOrderDisplay)
-        {
-
-        }
-
-        if (e.getSource() == btnPostOrderSave)
-        {
-
-        }
-
-        if (e.getSource() == btnPostOrderDisplay)
-        {
-
-        }
-    }
-
-    public void mouseClicked(MouseEvent e)
-    {
-        displaySelectedQuestion();
-    }
-
-    //<editor-fold defaultstate="collapsed" desc="Unused Events">
-    public void mouseEntered(MouseEvent e)
-    {
-
-    }
-
-    public void mouseExited(MouseEvent e)
-    {
-
-    }
-
-    public void mousePressed(MouseEvent e)
-    {
-
-    }
-
-    public void mouseReleased(MouseEvent e)
-    {
-
-    }
-    //</editor-fold>
-
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Sorts">
-    public static void bubbleSort(ArrayList<Object[]> arr)
-    {
-
-        for (int j = 0; j < arr.size(); j++)
-        {
-            for (int i = j + 1; i < arr.size(); i++)
-            {
-                if ((arr.get(i)[0]).toString().compareToIgnoreCase(arr.get(j)[0].toString()) < 0)
-                {
-                    Object[] words = arr.get(j);
-                    arr.set(j, arr.get(i));
-                    arr.set(i, words);
-                }
-            }
-        }
-    }
-
-    public static void insertionSort(ArrayList<Object[]> arr)
-    {
-        int j; // the number of items sorted so far
-        Object[] key; // the item to be inserted
-        int i;
-
-        for (j = 1; j < arr.size(); j++) // Start with 1 (not 0)
-        {
-            key = arr.get(j);
-            //for (i = j - 1; (i >= 0) && (arr.get(i) < key); i--)
-            for (i = j - 1; (i >= 0) && ((arr.get(i)[1]).toString().compareToIgnoreCase(key[1].toString()) > 0); i--) // Smaller values are moving up
-            {
-                arr.set((i + 1), arr.get(i));
-            }
-            arr.set((i + 1), key); // Put the key in its proper location
-        }
-    }
-
-    public static void selectionSort(ArrayList<Object[]> arr)
-    {
-        int i, j, first;
-        Object[] temp;
-        for (i = (arr.size() - 1); i > 0; i--)
-        {
-            first = 0; //initialize to subscript of first element
-            for (j = 1; j <= i; j++) //locate smallest element between positions 1 and i.
-            {
-                if ((arr.get(j)[2]).toString().compareToIgnoreCase(arr.get(first)[2].toString()) > 0)
-                {
-                    first = j;
-                }
-            }
-            temp = arr.get(first); //swap smallest found with element in position i.
-            arr.set((first), arr.get(i));
-            arr.set(i, temp);
-        }
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Read Data File">
-    public void readFile(String fileName)
-    {
-        // Try to read in the data and if an exception occurs go to the Catch section 
-        try
-        {
-            // Set up vaious streams for reading in the content of the data file.
-            FileInputStream fstream = new FileInputStream(fileName);
-            DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-            int i = 0;   // i is used as the line counter
-            String line; // line is used to temporarily store the line read in from the data file
-
-            // Read a line from the data file into the buffer and then check whether
-            //      it is null.  The while loop continues until a line read in is null.
-            while ((line = br.readLine()) != null)
-            {
-                // Split the line of data (from the text file) and put each entry into the
-                //                                             temporary array - temp[]
-                String[] temp = line.split(",");
-
-                QuestionInfo[i] = new QuestionDataRecord(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7]);
-//                txtTopic.setText(temp[1]);
-//                txtQuestion.setText(temp[2]);
-//                txtAnswerA.setText(temp[3]);
-//                txtAnswerB.setText(temp[4]);
-//                txtAnswerC.setText(temp[5]);
-//                txtAnswerD.setText(temp[6]);
-//                txtCorrectAnswer.setText(temp[7]);
-
-                dataValues.add(new Object[]
-                {
-                    temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7]
-                });
-
-                questionModel.fireTableDataChanged();
-
-                questionNumber = Integer.valueOf(temp[0]);
-
-                i++;  // Increment i so we can keep a count of how many entries have been read in.
-            }
-
-            numberOfEntries = i;   // Set numberOfEntries equal to i, so as to remember how many entries are now in the arrays 
-
-            br.close();            // Close the BufferedReader
-            in.close();            // Close the DataInputStream
-            fstream.close();       // Close the FileInputStream
-
-            System.out.println("Data file has been read");
-        } catch (Exception e)
-        {
-            // If an exception occurs, print an error message on the console.
-            System.err.print("Error Reading File: " + e.getMessage());
-        }
-    }
-
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Display Selected Question">
-    public void displaySelectedQuestion()
-    {
-        currentEntry = table.getSelectedRow();
-        txtTopic.setText(dataValues.get(currentEntry)[1].toString());
-        txtQuestion.setText(dataValues.get(currentEntry)[2].toString());
-        txtAnswerA.setText(dataValues.get(currentEntry)[3].toString());
-        txtAnswerB.setText(dataValues.get(currentEntry)[4].toString());
-        txtAnswerC.setText(dataValues.get(currentEntry)[5].toString());
-        txtAnswerD.setText(dataValues.get(currentEntry)[6].toString());
-        txtCorrectAnswer.setText(dataValues.get(currentEntry)[7].toString());
     }
 
     //</editor-fold>
@@ -501,192 +282,249 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         }
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Binary Tree">
-    class BinaryNode
+    
+    //<editor-fold defaultstate="collapsed" desc="Event Listeners">
+    @Override
+    public void actionPerformed(ActionEvent e)
     {
-
-        int key;
-        String name;
-
-        BinaryNode leftChild;
-        BinaryNode rightChild;
-
-        BinaryNode(int key, String name)
+        if (e.getSource() == btnQuestionNumber)
         {
-
-            this.key = key;
-            this.name = name;
+            bubbleSort(dataValues);
+            table.repaint();
         }
 
-        public String toString()
+        if (e.getSource() == btnTopic)
+        {
+            insertionSort(dataValues);
+            table.repaint();
+        }
+
+        if (e.getSource() == btnQuestionSort)
+        {
+            selectionSort(dataValues);
+            table.repaint();
+        }
+
+        if (e.getSource() == btnSendQuestion)
+        {
+            System.out.println("Before Print");
+            dlist.print();
+            print();
+        }
+
+        if (e.getSource() == btnBinaryTreeDisplay)
         {
 
-            return name + " has the key " + key;
+        }
 
-            /*
-             * return name + " has the key " + key + "\nLeft Child: " + leftChild +
-             * "\nRight Child: " + rightChild + "\n";
-             */
+        if (e.getSource() == btnPreOrderSave)
+        {
+
+        }
+
+        if (e.getSource() == btnPreOrderDisplay)
+        {
+
+        }
+
+        if (e.getSource() == btnInOrderSave)
+        {
+
+        }
+
+        if (e.getSource() == btnInOrderDisplay)
+        {
+
+        }
+
+        if (e.getSource() == btnPostOrderSave)
+        {
+
+        }
+
+        if (e.getSource() == btnPostOrderDisplay)
+        {
+
         }
     }
 
-    public void addNode(int key, String name)
+    public void mouseClicked(MouseEvent e)
+    {
+        displaySelectedQuestion();
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Unused Events">
+    public void mouseEntered(MouseEvent e)
     {
 
-        // Create a new Node and initialize it
-        BinaryNode newNode = new BinaryNode(key, name);
+    }
 
-        // If there is no root this becomes root
-        if (root == null)
+    public void mouseExited(MouseEvent e)
+    {
+
+    }
+
+    public void mousePressed(MouseEvent e)
+    {
+
+    }
+
+    public void mouseReleased(MouseEvent e)
+    {
+
+    }
+    //</editor-fold>
+
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Read Data File">
+    public void readFile(String fileName)
+    {
+        // Try to read in the data and if an exception occurs go to the Catch section 
+        try
         {
+            // Set up vaious streams for reading in the content of the data file.
+            FileInputStream fstream = new FileInputStream(fileName);
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
-            root = newNode;
+            int i = 0;   // i is used as the line counter
+            String line; // line is used to temporarily store the line read in from the data file
 
-        } else
-        {
-
-            // Set root as the Node we will start
-            // with as we traverse the tree
-            BinaryNode focusNode = root;
-
-            // Future parent for our new Node
-            BinaryNode parent;
-
-            while (true)
+            // Read a line from the data file into the buffer and then check whether
+            //      it is null.  The while loop continues until a line read in is null.
+            while ((line = br.readLine()) != null)
             {
+                // Split the line of data (from the text file) and put each entry into the
+                //                                             temporary array - temp[]
+                String[] temp = line.split(",");
 
-                // root is the top parent so we start
-                // there
-                parent = focusNode;
+                QuestionInfo[i] = new QuestionDataRecord(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7]);
+                
+                
+                dlist.head.append(new LinkedListNode(temp[1], Integer.parseInt(temp[0]), Integer.parseInt(temp[0])));
+//                txtTopic.setText(temp[1]);
+//                txtQuestion.setText(temp[2]);
+//                txtAnswerA.setText(temp[3]);
+//                txtAnswerB.setText(temp[4]);
+//                txtAnswerC.setText(temp[5]);
+//                txtAnswerD.setText(temp[6]);
+//                txtCorrectAnswer.setText(temp[7]);
 
-                // Check if the new node should go on
-                // the left side of the parent node
-                if (key < focusNode.key)
+                dataValues.add(new Object[]
                 {
+                    temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7]
+                });
 
-                    // Switch focus to the left child
-                    focusNode = focusNode.leftChild;
+                questionModel.fireTableDataChanged();
 
-                    // If the left child has no children
-                    if (focusNode == null)
-                    {
+                questionNumber = Integer.valueOf(temp[0]);
 
-                        // then place the new node on the left of it
-                        parent.leftChild = newNode;
-                        return; // All Done
-
-                    }
-                } else
-                { // If we get here put the node on the right
-
-                    focusNode = focusNode.rightChild;
-
-                    // If the right child has no children
-                    if (focusNode == null)
-                    {
-
-                        // then place the new node on the right of it
-                        parent.rightChild = newNode;
-                        return; // All Done
-
-                    }
-                }
-            }
-        }
-
-    }
-
-    // All nodes are visited in ascending order
-    // Recursion is used to go to one node and
-    // then go to its child nodes and so forth
-    public void inOrderTraverseTree(BinaryNode focusNode)
-    {
-
-        if (focusNode != null)
-        {
-
-            // Traverse the left node
-            inOrderTraverseTree(focusNode.leftChild);
-
-            // Visit the currently focused on node
-            System.out.println(focusNode);
-
-            // Traverse the right node
-            inOrderTraverseTree(focusNode.rightChild);
-
-        }
-
-    }
-
-    public void preorderTraverseTree(BinaryNode focusNode)
-    {
-
-        if (focusNode != null)
-        {
-
-            System.out.println(focusNode);
-
-            preorderTraverseTree(focusNode.leftChild);
-            preorderTraverseTree(focusNode.rightChild);
-
-        }
-
-    }
-
-    public void postOrderTraverseTree(BinaryNode focusNode)
-    {
-
-        if (focusNode != null)
-        {
-
-            postOrderTraverseTree(focusNode.leftChild);
-            postOrderTraverseTree(focusNode.rightChild);
-
-            System.out.println(focusNode);
-
-        }
-
-    }
-
-    public BinaryNode findNode(int key)
-    {
-
-        // Start at the top of the tree
-        BinaryNode focusNode = root;
-
-        // While we haven't found the Node
-        // keep looking
-        while (focusNode.key != key)
-        {
-
-            // If we should search to the left
-            if (key < focusNode.key)
-            {
-
-                // Shift the focus Node to the left child
-                focusNode = focusNode.leftChild;
-
-            } else
-            {
-
-                // Shift the focus Node to the right child
-                focusNode = focusNode.rightChild;
-
+                i++;  // Increment i so we can keep a count of how many entries have been read in.
             }
 
-            // The node wasn't found
-            if (focusNode == null)
-            {
-                return null;
-            }
+            numberOfEntries = i;   // Set numberOfEntries equal to i, so as to remember how many entries are now in the arrays 
 
+            br.close();            // Close the BufferedReader
+            in.close();            // Close the DataInputStream
+            fstream.close();       // Close the FileInputStream
+
+            System.out.println("Data file has been read");
+        } catch (Exception e)
+        {
+            // If an exception occurs, print an error message on the console.
+            System.err.print("Error Reading File: " + e.getMessage());
         }
-
-        return focusNode;
-
     }
 
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Sorts">
+    public static void bubbleSort(ArrayList<Object[]> arr)
+    {
+
+        for (int j = 0; j < arr.size(); j++)
+        {
+            for (int i = j + 1; i < arr.size(); i++)
+            {
+                if ((arr.get(i)[0]).toString().compareToIgnoreCase(arr.get(j)[0].toString()) < 0)
+                {
+                    Object[] words = arr.get(j);
+                    arr.set(j, arr.get(i));
+                    arr.set(i, words);
+                }
+            }
+        }
+    }
+
+    public static void insertionSort(ArrayList<Object[]> arr)
+    {
+        int j; // the number of items sorted so far
+        Object[] key; // the item to be inserted
+        int i;
+
+        for (j = 1; j < arr.size(); j++) // Start with 1 (not 0)
+        {
+            key = arr.get(j);
+            //for (i = j - 1; (i >= 0) && (arr.get(i) < key); i--)
+            for (i = j - 1; (i >= 0) && ((arr.get(i)[1]).toString().compareToIgnoreCase(key[1].toString()) > 0); i--) // Smaller values are moving up
+            {
+                arr.set((i + 1), arr.get(i));
+            }
+            arr.set((i + 1), key); // Put the key in its proper location
+        }
+    }
+
+    public static void selectionSort(ArrayList<Object[]> arr)
+    {
+        int i, j, first;
+        Object[] temp;
+        for (i = (arr.size() - 1); i > 0; i--)
+        {
+            first = 0; //initialize to subscript of first element
+            for (j = 1; j <= i; j++) //locate smallest element between positions 1 and i.
+            {
+                if ((arr.get(j)[2]).toString().compareToIgnoreCase(arr.get(first)[2].toString()) > 0)
+                {
+                    first = j;
+                }
+            }
+            temp = arr.get(first); //swap smallest found with element in position i.
+            arr.set((first), arr.get(i));
+            arr.set(i, temp);
+        }
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Display Selected Question">
+    public void displaySelectedQuestion()
+    {
+        currentEntry = table.getSelectedRow();
+        txtTopic.setText(dataValues.get(currentEntry)[1].toString());
+        txtQuestion.setText(dataValues.get(currentEntry)[2].toString());
+        txtAnswerA.setText(dataValues.get(currentEntry)[3].toString());
+        txtAnswerB.setText(dataValues.get(currentEntry)[4].toString());
+        txtAnswerC.setText(dataValues.get(currentEntry)[5].toString());
+        txtAnswerD.setText(dataValues.get(currentEntry)[6].toString());
+        txtCorrectAnswer.setText(dataValues.get(currentEntry)[7].toString());
+    }
+
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Print Linked List">
+    public void print()
+    {                  // print content of list
+        if (dlist.head.next == dlist.head)
+        {             // list is empty, only header Node
+            txtLinkedList.setText("list empty");
+            return;
+        }
+        txtLinkedList.setText("list content = ");
+        for (LinkedListNode current = dlist.head.next; current != dlist.head.prev; current = current.next)
+        {
+            txtLinkedList.append(current.questionQN + " - " + current.questionTopic + ", ");
+        }
+        txtLinkedList.append("");
+    }
+    //</editor-fold>
 }
