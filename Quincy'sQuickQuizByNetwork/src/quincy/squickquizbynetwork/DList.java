@@ -30,6 +30,9 @@ class LinkedListNode
     {                // constructor for head Node 
         prev = this;           // of an empty doubly-linked list
         next = this;
+        questionTopic = "QN Topic";
+        questionQN = 0;
+        questionFailures = 0;
 //    myWords.Word1 = "Yellow";
 //    myWords.Word2 = "No";
         // data = 'H';           // not used except for printing data in list head
@@ -39,6 +42,10 @@ class LinkedListNode
     {       // constructor for a Node with data
         prev = null;
         next = null;
+        
+        questionTopic = w1;
+        questionQN = w2;
+        questionFailures = w3;
         //this.data = data;     // set argument data to instance variable data
     }
 
@@ -51,8 +58,8 @@ class LinkedListNode
             next.prev = newNode;
         }
         next = newNode;
-        System.out.println("Node with data " + newNode.myWords.Word1
-                + " appended after Node with data " + myWords.Word1);
+        System.out.println("Node with data " + newNode.questionTopic
+                + " appended after Node with data " + questionTopic);
     }
 
     public void insert(LinkedListNode newNode)
@@ -61,18 +68,18 @@ class LinkedListNode
         newNode.next = this;
         prev.next = newNode;;
         prev = newNode;
-        System.out.println("Node with data " + newNode.myWords.Word1
-                + " inserted before Node with data " + myWords.Word1);
+        System.out.println("Node with data " + newNode.questionTopic
+                + " inserted before Node with data " + questionTopic);
     }
 
     public void remove()
     {              // remove this Node
         next.prev = prev;                 // bypass this Node
         prev.next = next;
-        System.out.println("Node with data " + myWords.Word1 + " removed");
+        System.out.println("Node with data " + questionTopic + " removed");
     }
     public String toString(){
-        return this.myWords.Word1 + " - " + this.myWords.Word2;
+        return this.questionTopic + " - " + this.questionQN;
     }
 }
 
@@ -90,7 +97,7 @@ class DList
     {          // find LinkedListNode containing x
         for (LinkedListNode current = head.next; current != head; current = current.next)
         {
-            if (current.myWords.Word1.compareToIgnoreCase(wrd1) == 0)
+            if (current.questionTopic.compareToIgnoreCase(wrd1) == 0)
             {        // is x contained in current Node?
                 System.out.println("Data " + wrd1 + " found");
                 return current;               // return Node containing x
@@ -130,7 +137,7 @@ class DList
         str = "list content = ";
         for (LinkedListNode current = head.next; current != head && current != null; current = current.next)
         {
-            str = str + current.myWords.Word1;
+            str = str + current.questionTopic;
         }
         return str;
     }
@@ -143,40 +150,41 @@ class DList
             return;
         }
         System.out.print("list content = ");
-        for (LinkedListNode current = head.next; current != head; current = current.next)
+        for (LinkedListNode current = head.next; current != head.prev; current = current.next)
         {
-            System.out.print(" " + current.myWords.Word1);
+            System.out.print(" " + current.questionQN + " - " + current.questionTopic);
         }
         System.out.println("");
     }
 
-//  public static void main(String[] args) {
-//    DList dList = new DList();              // create an empty dList
+//  public static void printList(String[] args)
+//  {
+//    DList dList = new DList("", 0, 0);              // create an empty dList
 //    dList.print();
 //
-//    dList.head.append(new Node("1","2"));       // add Node with data '1'
+//    dList.head.append(new LinkedListNode("1", 2, 3));       // add Node with data '1'
 //    dList.print();
-//    dList.head.append(new Node("3", "4"));       // add Node with data '2'
+//    dList.head.append(new LinkedListNode("3", 4, 5));       // add Node with data '2'
 //    dList.print();
-//    dList.head.append(new Node("5","6"));       // add Node with data '3'
+//    dList.head.append(new LinkedListNode("5", 6, 7));       // add Node with data '3'
 //    dList.print();
-//    dList.head.insert(new Node("A","B"));       // add Node with data 'A'
+//    dList.head.insert(new LinkedListNode("A", 8, 9));       // add Node with data 'A'
 //    dList.print();
-//    dList.head.insert(new Node("C","D"));       // add Node with data 'B'
+//    dList.head.insert(new LinkedListNode("C", 10, 11));       // add Node with data 'B'
 //    dList.print();
-//    dList.head.insert(new Node("E","F"));       // add Node with data 'C'
+//    dList.head.insert(new LinkedListNode("E", 12, 13));       // add Node with data 'C'
 //    dList.print();
 //
-//    Node nodeA = dList.find("A");           // find Node containing 'A'
+//    LinkedListNode nodeA = dList.find("A");           // find Node containing 'A'
 //    nodeA.remove();                         // remove that Node
 //    dList.print();
 //
-//    Node node2 = dList.find("3");           // find Node containing '2'
+//    LinkedListNode node2 = dList.find("3");           // find Node containing '2'
 //    node2.remove();                           // remove that Node
 //    dList.print();
 //
-//    Node nodeB = dList.find("5");            // find Node containing 'B'
-//    nodeB.append(new Node("Linked","List"));   // add Node with data X
+//    LinkedListNode nodeB = dList.find("5");            // find Node containing 'B'
+//    nodeB.append(new LinkedListNode("Linked", 1, 2));   // add Node with data X
 //    dList.print();
 //  }
 }
