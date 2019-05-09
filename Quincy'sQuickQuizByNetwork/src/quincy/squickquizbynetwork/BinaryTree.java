@@ -7,6 +7,10 @@ public class BinaryTree
 
     BinaryTreeNode root;
 
+    String traverseInOrderString;
+    String traversePreOrderString;
+    String traversePostOrderString;
+
     public void addNode(int key, String name)
     {
 
@@ -19,8 +23,7 @@ public class BinaryTree
 
             root = newNode;
 
-        } 
-        else
+        } else
         {
 
             // Set root as the Node we will start
@@ -55,8 +58,7 @@ public class BinaryTree
 
                     }
 
-                } 
-                else
+                } else
                 { // If we get here put the node on the right
 
                     focusNode = focusNode.rightChild;
@@ -83,30 +85,27 @@ public class BinaryTree
     // then go to its child nodes and so forth
     public void inOrderTraverseTree(BinaryTreeNode focusNode)
     {
-
         if (focusNode != null)
         {
-
             // Traverse the left node
             inOrderTraverseTree(focusNode.leftChild);
 
             // Visit the currently focused on node
-            System.out.println(focusNode);
-
+            //System.out.println(focusNode);
+            traverseInOrderString = traverseInOrderString + ",  " + focusNode.toString();
             // Traverse the right node
             inOrderTraverseTree(focusNode.rightChild);
 
         }
-
     }
 
     public void preorderTraverseTree(BinaryTreeNode focusNode)
     {
-
         if (focusNode != null)
         {
-
-            System.out.println(focusNode);
+            //System.out.println(focusNode);
+            
+            traversePreOrderString = traversePreOrderString + ",  " + focusNode.toString();
 
             preorderTraverseTree(focusNode.leftChild);
             preorderTraverseTree(focusNode.rightChild);
@@ -117,15 +116,14 @@ public class BinaryTree
 
     public void postOrderTraverseTree(BinaryTreeNode focusNode)
     {
-
         if (focusNode != null)
         {
-
             postOrderTraverseTree(focusNode.leftChild);
             postOrderTraverseTree(focusNode.rightChild);
 
-            System.out.println(focusNode);
-
+            //System.out.println(focusNode);
+            
+            traversePostOrderString = traversePostOrderString + ",  " + focusNode.toString();
         }
 
     }
@@ -169,33 +167,32 @@ public class BinaryTree
 
     }
 
-    public static void main(String[] args)
-    {
-
-        BinaryTree theTree = new BinaryTree();
-
-        theTree.addNode(50, "Boss");
-
-        theTree.addNode(25, "Vice President");
-
-        theTree.addNode(15, "Office Manager");
-
-        theTree.addNode(30, "Secretary");
-
-        theTree.addNode(75, "Sales Manager");
-
-        theTree.addNode(85, "Salesman 1");
-
-        // Different ways to traverse binary trees
-        //theTree.inOrderTraverseTree(theTree.root);
-        //theTree.preorderTraverseTree(theTree.root);
-        //theTree.postOrderTraverseTree(theTree.root);
-        // Find the node with key 75
-        System.out.println("\nNode with the key 75");
-
-        System.out.println(theTree.findNode(75));
-
-    }
+//    public static void main(String[] args)
+//    {
+//
+//        BinaryTree theTree = new BinaryTree();
+//
+//        theTree.addNode(50, "Boss");
+//
+//        theTree.addNode(25, "Vice President");
+//
+//        theTree.addNode(15, "Office Manager");
+//
+//        theTree.addNode(30, "Secretary");
+//
+//        theTree.addNode(75, "Sales Manager");
+//
+//        theTree.addNode(85, "Salesman 1");
+//
+//        // Different ways to traverse binary trees
+//        //theTree.inOrderTraverseTree(theTree.root);
+//        //theTree.preorderTraverseTree(theTree.root);
+//        //theTree.postOrderTraverseTree(theTree.root);
+//        // Find the node with key 75
+//        System.out.println("\nNode with the key 75");
+//
+//        System.out.println(theTree.findNode(75));
+    //}
 }
 
 class BinaryTreeNode

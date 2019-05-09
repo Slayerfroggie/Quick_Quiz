@@ -52,7 +52,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     int maxEntries = 500;
     int numberOfEntries = 0;
     int currentEntry = 0;
-    int questionNumber = 0;
 
     QuestionDataRecord[] QuestionInfo = new QuestionDataRecord[maxEntries];
 
@@ -67,6 +66,8 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //BinaryNode root;
     
     DList dlist;
+    
+    BinaryTree theTree = new BinaryTree();
     
     String[] sortArray = new String[maxEntries];
     
@@ -87,7 +88,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         setBounds(100, 200, 1080, 654);
         setTitle("Quiz By Network");
         getContentPane().setBackground(new Color(255, 254, 220));
-        dlist = new DList("r", 0, 0);
+        dlist = new DList("", 0, 0);
         addWindowListener(new WindowAdapter()
         {
             @Override
@@ -307,14 +308,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnSendQuestion)
         {
-            System.out.println("Before Print");
             dlist.print();
-            print();
+            printLinkedList();
         }
 
         if (e.getSource() == btnBinaryTreeDisplay)
         {
-
+            
         }
 
         if (e.getSource() == btnPreOrderSave)
@@ -324,7 +324,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnPreOrderDisplay)
         {
-
+            theTree.traversePreOrderString = "";
+            txtBinaryTree.setText("");
+            theTree.preorderTraverseTree(theTree.root);
+            txtBinaryTree.setText("Pre-Order: " + theTree.traversePreOrderString);
         }
 
         if (e.getSource() == btnInOrderSave)
@@ -334,7 +337,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnInOrderDisplay)
         {
-
+            theTree.traverseInOrderString = "";
+            txtBinaryTree.setText("");
+            theTree.inOrderTraverseTree(theTree.root);
+            txtBinaryTree.setText("In-Order: " + theTree.traverseInOrderString);
         }
 
         if (e.getSource() == btnPostOrderSave)
@@ -344,7 +350,11 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnPostOrderDisplay)
         {
-
+            
+            theTree.traversePostOrderString = "";
+            txtBinaryTree.setText("");
+            theTree.postOrderTraverseTree(theTree.root);
+            txtBinaryTree.setText("Post-Order: " + theTree.traversePostOrderString);
         }
     }
 
@@ -401,15 +411,9 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
                 QuestionInfo[i] = new QuestionDataRecord(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7]);
                 
-                
                 dlist.head.append(new LinkedListNode(temp[1], Integer.parseInt(temp[0]), Integer.parseInt(temp[0])));
-//                txtTopic.setText(temp[1]);
-//                txtQuestion.setText(temp[2]);
-//                txtAnswerA.setText(temp[3]);
-//                txtAnswerB.setText(temp[4]);
-//                txtAnswerC.setText(temp[5]);
-//                txtAnswerD.setText(temp[6]);
-//                txtCorrectAnswer.setText(temp[7]);
+                
+                theTree.addNode(Integer.parseInt(temp[0]), temp[1]);
 
                 dataValues.add(new Object[]
                 {
@@ -417,8 +421,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
                 });
 
                 questionModel.fireTableDataChanged();
-
-                questionNumber = Integer.valueOf(temp[0]);
 
                 i++;  // Increment i so we can keep a count of how many entries have been read in.
             }
@@ -512,7 +514,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Print Linked List">
-    public void print()
+    public void printLinkedList()
     {                  // print content of list
         if (dlist.head.next == dlist.head)
         {             // list is empty, only header Node
@@ -527,4 +529,9 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         txtLinkedList.append("");
     }
     //</editor-fold>
+    
+    public void savePostOrderTree()
+    {
+    
+    }
 }
