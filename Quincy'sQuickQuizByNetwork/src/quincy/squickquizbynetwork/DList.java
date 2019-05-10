@@ -30,7 +30,7 @@ class LinkedListNode
     {                // constructor for head Node 
         prev = this;           // of an empty doubly-linked list
         next = this;
-        questionTopic = "QN Topic";
+        questionTopic = "";
         questionQN = 0;
         questionFailures = 0;
 //    myWords.Word1 = "Yellow";
