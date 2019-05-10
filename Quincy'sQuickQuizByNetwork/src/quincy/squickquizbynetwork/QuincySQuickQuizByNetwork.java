@@ -1,6 +1,7 @@
 package quincy.squickquizbynetwork;
 
 //<editor-fold defaultstate="collapsed" desc="Libraries">
+
 //swing libraries
 import javax.swing.*;
 
@@ -14,8 +15,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
+//import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+//import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -327,7 +330,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             theTree.traversePreOrderString = "";
             txtBinaryTree.setText("");
             theTree.preorderTraverseTree(theTree.root);
-            txtBinaryTree.setText("Pre-Order: " + theTree.traversePreOrderString);
+            txtBinaryTree.setText("PRE-ORDER: " + theTree.traversePreOrderString);
         }
 
         if (e.getSource() == btnInOrderSave)
@@ -340,7 +343,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             theTree.traverseInOrderString = "";
             txtBinaryTree.setText("");
             theTree.inOrderTraverseTree(theTree.root);
-            txtBinaryTree.setText("In-Order: " + theTree.traverseInOrderString);
+            txtBinaryTree.setText("IN-ORDER: " + theTree.traverseInOrderString);
         }
 
         if (e.getSource() == btnPostOrderSave)
@@ -350,11 +353,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnPostOrderDisplay)
         {
-            
             theTree.traversePostOrderString = "";
             txtBinaryTree.setText("");
             theTree.postOrderTraverseTree(theTree.root);
-            txtBinaryTree.setText("Post-Order: " + theTree.traversePostOrderString);
+            txtBinaryTree.setText("POST-ORDER: " + theTree.traversePostOrderString);
         }
     }
 
@@ -521,17 +523,32 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             txtLinkedList.setText("list empty");
             return;
         }
-        txtLinkedList.setText("list content = ");
+        txtLinkedList.setText("HEAD <==> ");
         for (LinkedListNode current = dlist.head.next; current != dlist.head.prev; current = current.next)
         {
-            txtLinkedList.append(current.questionQN + " - " + current.questionTopic + ", ");
+            txtLinkedList.append("Qn " + current.questionQN + ", " + current.questionTopic + " <==> ");
         }
-        txtLinkedList.append("");
+        txtLinkedList.append("TAIL");
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Binary Tree Export">
+    
+    //TASK FOR THIS SECTION, Third Party Library required
+    //The various Save buttons will save the binary tree content in these different formats into an appropriately named text file.
+    //Apply a hashing algorithm to the output of each of these files.
+    
     public void savePostOrderTree()
+    {
+        //BufferedWriter rafFile = new BufferedWriter(new FileWriter(fileName = lblHazardType.getText()+".raf"));
+    }
+    public void saveInOrderTree()
     {
     
     }
+    public void savePreOrderTree()
+    {
+    
+    }
+    //</editor-fold>
 }
