@@ -1,8 +1,9 @@
 package quincy.squickquizbynetwork;
 
 //<editor-fold defaultstate="collapsed" desc="Libraries">
-//swing libraries
 import javax.swing.*;
+import java.net.*;
+import java.io.*;
 
 import java.awt.event.WindowAdapter;
 import java.awt.BorderLayout;
@@ -79,6 +80,15 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     // datafile with questions and their data
     String dataFileName = "QuestionData.csv";
+    
+    //CHAT RELATED ---------------------------
+    private Socket socket = null;
+    private DataInputStream console = null;
+    private DataOutputStream streamOut = null;
+    private ChatClientThread1 client1 = null;
+    private String serverName = "localhost";
+    private int serverPort = 4444;
+    //----------------------------------------
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Runtime">
@@ -112,7 +122,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         });
         
         //dlist = new DList("r", 0, 0);
-
+        connect(serverName, serverPort);
+        
+        getParameters();
+        
         displayGUI();
 
         setResizable(false);
@@ -318,9 +331,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnSendQuestion)
         {
+            send();
             //prints linked list WILL BE REMOVED LATER
-            dlist.print();
-            printLinkedList();
+            //dlist.print();
+            //printLinkedList();
         }
 
         if (e.getSource() == btnBinaryTreeDisplay)
@@ -544,4 +558,108 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         txtLinkedList.append("");
     }
     //</editor-fold>
+    
+    public void connect(String serverName, int serverPort)
+    {
+        System.out.println("Establishing connection. Please wait ...");
+        try
+        {
+            socket = new Socket(serverName, serverPort);
+            System.out.println("Connected: " + socket);
+            open();
+        }
+        catch (UnknownHostException uhe)
+        {
+            System.out.println("Host unknown: " + uhe.getMessage());
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("Unexpected exception: " + ioe.getMessage());
+        }
+    }
+    
+    private void send()
+    {
+        try
+        {
+            streamOut.writeUTF(
+                dataValues.get(currentEntry)[1].toString() + "," + 
+                dataValues.get(currentEntry)[2].toString() + "," +
+                dataValues.get(currentEntry)[3].toString() + "," +
+                dataValues.get(currentEntry)[4].toString() + "," +
+                dataValues.get(currentEntry)[5].toString() + "," +
+                dataValues.get(currentEntry)[2].toString()
+            );
+            
+            streamOut.flush();
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("Sending error: " + ioe.getMessage());
+            close();
+        }
+    }
+    
+    public void handle(String msg)
+    {
+        if (msg.equals(".bye"))
+        {
+            System.out.println("Good bye. Press EXIT button to exit ...");
+            close();
+        }
+        else
+        {
+            System.out.println("Handle: " + msg);
+            System.out.println(msg);
+        }
+    }
+    
+    public void open()
+    {
+        try
+        {
+            streamOut = new DataOutputStream(socket.getOutputStream());
+            client1 = new ChatClientThread1(this, socket);
+        }
+        catch (IOException ioe)
+        {
+            println("Error opening output stream: " + ioe);
+        }
+    }
+
+    public void close()
+    {
+        try
+        {
+            if (streamOut != null)
+            {
+                streamOut.close();
+            }
+            if (socket != null)
+            {
+                socket.close();
+            }
+        }
+        catch (IOException ioe)
+        {
+            println("Error closing ...");
+        }
+        client1.close();
+        client1.stop();
+    }
+
+    void println(String msg)
+    {
+        //display.appendText(msg + "\n");
+        txtLinkedList.setText(msg);
+    }
+
+    public void getParameters()
+    {
+//        serverName = getParameter("host");
+//        serverPort = Integer.parseInt(getParameter("port"));
+        
+        serverName = "localhost";
+        serverPort = 4444;        
+    }
 }
