@@ -36,41 +36,48 @@ import javax.swing.table.AbstractTableModel;
 public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener, MouseListener
 {
     //<editor-fold defaultstate="collapsed" desc="Global Variables">
+    
+    // All labels 
     private JLabel lblSortBy, lblCorrectAns, lblLinkedList, lblBinaryTree,
             lblPreOrder, lblInOrder, lblPostOrder, lblTitle,
             lblQuestionListTitle, lblCurrentQuestionTitle, lblTopic, lblQn,
             lblAnswerA, lblAnswerB, lblAnswerC, lblAnswerD, lblQuestionDetails;
 
+    // All buttons
     private JButton btnQuestionNumber, btnTopic, btnQuestionSort, btnExit,
             btnSendQuestion, btnPreOrderSave, btnPreOrderDisplay,
             btnInOrderSave, btnInOrderDisplay,
             btnPostOrderSave, btnPostOrderDisplay, btnBinaryTreeDisplay;
-
+    
+    // All Textareas
     public JTextArea txtLinkedList, txtBinaryTree, txtTopic, txtQuestion,
             txtAnswerA, txtAnswerB, txtAnswerC, txtAnswerD, txtCorrectAnswer;
     
+    //determines maximum amount of questions that can be read in
     int maxEntries = 500;
+    //initial entry count
     int numberOfEntries = 0;
+    //initial selected entry
     int currentEntry = 0;
-
+    
+    //bringing across the QuestionDataRecord Gets and Sets
     QuestionDataRecord[] QuestionInfo = new QuestionDataRecord[maxEntries];
 
+    // table for JTable
     JTable table;
 
+    //model for Jtable data
     MyModel questionModel;
-
+    
+    // arraylist objects
     ArrayList<Object[]> dataValues;
-
     ArrayList<Object[]> questionValues;
-
-    //BinaryNode root;
     
     DList dlist;
     
     BinaryTree theTree = new BinaryTree();
     
-    String[] sortArray = new String[maxEntries];
-    
+    // datafile with questions and their data
     String dataFileName = "QuestionData.csv";
     //</editor-fold>
     
@@ -290,40 +297,45 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     {
         if (e.getSource() == btnQuestionNumber)
         {
+            //bubble sort for sorting by question number
             bubbleSort(dataValues);
             table.repaint();
         }
 
         if (e.getSource() == btnTopic)
         {
+            // insertion sort for sorting by topic
             insertionSort(dataValues);
             table.repaint();
         }
 
         if (e.getSource() == btnQuestionSort)
         {
+            //selection sort for sorting by question 
             selectionSort(dataValues);
             table.repaint();
         }
 
         if (e.getSource() == btnSendQuestion)
         {
+            //prints linked list WILL BE REMOVED LATER
             dlist.print();
             printLinkedList();
         }
 
         if (e.getSource() == btnBinaryTreeDisplay)
         {
-            
+            //placeholder button if a graphical binary tree is made
         }
 
         if (e.getSource() == btnPreOrderSave)
         {
-
+            // will be used once serverside and hashing algorithm is implemented
         }
 
         if (e.getSource() == btnPreOrderDisplay)
         {
+            //clears the text area and prints the binary tree in preorder
             theTree.traversePreOrderString = "";
             txtBinaryTree.setText("");
             theTree.preorderTraverseTree(theTree.root);
@@ -332,11 +344,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnInOrderSave)
         {
-
+            // will be used once serverside and hashing algorithm is implemented
         }
 
         if (e.getSource() == btnInOrderDisplay)
         {
+            //clears the text area and prints the binary tree inorder
             theTree.traverseInOrderString = "";
             txtBinaryTree.setText("");
             theTree.inOrderTraverseTree(theTree.root);
@@ -345,12 +358,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnPostOrderSave)
         {
-
+            // will be used once serverside and hashing algorithm is implemented
         }
 
         if (e.getSource() == btnPostOrderDisplay)
         {
-            
+            //clears the text area and prints the binary tree in postorder
             theTree.traversePostOrderString = "";
             txtBinaryTree.setText("");
             theTree.postOrderTraverseTree(theTree.root);
@@ -360,6 +373,8 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     public void mouseClicked(MouseEvent e)
     {
+        // button event to select questions from the Jtable
+        //to be put in the question details text areas
         displaySelectedQuestion();
     }
 
@@ -529,9 +544,4 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         txtLinkedList.append("");
     }
     //</editor-fold>
-    
-    public void savePostOrderTree()
-    {
-    
-    }
 }

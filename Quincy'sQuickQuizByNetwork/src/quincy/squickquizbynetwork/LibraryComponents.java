@@ -36,8 +36,8 @@ public class LibraryComponents
     //<editor-fold defaultstate="collapsed" desc="JLabel">
 
     /**
-     * -------------------------------------------------------- Purpose: Locate
-     * a single JLabel within a JFrame.
+     * -------------------------------------------------------- 
+     * Purpose: Locate a single JLabel within a JFrame.
      *
      * @param JFrame, Layout_manager, JLabel_Caption, Width, X_position,
      * Y_Position, Font_Size, Background_Red, Background_Green, Background_Blue,
@@ -86,8 +86,8 @@ public class LibraryComponents
 
     //<editor-fold defaultstate="collapsed" desc="JTextField">
     /**
-     * -------------------------------------------------------- Purpose: Locate
-     * a single JTextField within a JFrame.
+     * -------------------------------------------------------- 
+     * Purpose: Locate a single JTextField within a JFrame.
      *
      * @param JFrame, KeyListener, Layout_manager, Width, X_position, Y_Position
      * @returns The JTextField.
@@ -106,8 +106,8 @@ public class LibraryComponents
 
     //<editor-fold defaultstate="collapsed" desc="JButton">
     /**
-     * -------------------------------------------------------- Purpose: Locate
-     * a single JButton within a JFrame.
+     * -------------------------------------------------------- 
+     * Purpose: Locate a single JButton within a JFrame.
      *
      * @param JFrame, ActionListener, Layout_manager, JButton_name,
      * JButton_caption, X_position, Y_Position, Width, Height
@@ -129,8 +129,8 @@ public class LibraryComponents
 
     //<editor-fold defaultstate="collapsed" desc="JTextArea">
     /**
-     * -------------------------------------------------------- Purpose: Locate
-     * a single JTextArea within a JFrame.
+     * -------------------------------------------------------- 
+     * Purpose: Locate a single JTextArea within a JFrame.
      *
      * @param JFrame, Layout_manager, X_position, Y_Position, Width, Height
      * @returns The JTextArea.

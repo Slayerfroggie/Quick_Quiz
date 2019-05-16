@@ -1,29 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package quincy.squickquizbynetwork;
 
 /**
  *
  * @author Franciscus Sluyter
+ * 
+ * Purpose: to get and set all the data for the question data
  */
 public class QuestionDataRecord
 {
-    // Declarations of 3 Strings, used to store the PCName, PCID and IP_Address
-    //      data in memory for EACH PCDataRecord.  That is: when one object is instantiated
-	//      from this PCDataRecord class, it will record the detail for one PC.
-    // These properties - PCName, PCID and IP_Address - are set to private so a calling
+    // Declarations of 8 Strings, used to store the QuestionNumber, Topic, Question, AnswerA,
+    // AnswerB, AnswerC, AnswerD, and Correct Answer
+    //      data in memory for EACH QuestionDataRecord.  That is: when one object is instantiated
+	//      from this QuestionDataRecord class, it will record the detail for one Question.
+    //      These properties - QuestionNumber, Topic, Question, AnswerA, AnswerB, AnswerC,
+    //      AnswerD, CorrectAnswer - are set to private so a calling
     //      class is not able to assign or access the respective values directly.
     //      Access to these properties would be best managed through the respective
     //      getters and setters - see below.
     private String QuestionNumber, Topic, Question, AnswerA, AnswerB, AnswerC, AnswerD, CorrectAnswer = new String();
     
     /** --------------------------------------------------------
-    * Purpose: Constructor for the class: PCDataRecord.
+    * Purpose: Constructor for the class: QuestionDataRecord.
     *          When a PCDataRecord is instantiated, and no default entries
-    *          for the 3 properties - PC_Name/PC_ID/IP_Address - are provided,
+    *          for the 8 properties - QuestionNumber/Topic/Question/AnswerA/
+    *          AnswerB/AnswerC/AnswerD/CorrectAnswer - are provided,
     *          this method will set default values for each.
     * @param   None.
     * @returns Not applicable.
@@ -43,10 +44,11 @@ public class QuestionDataRecord
 
     /** --------------------------------------------------------
     * Purpose: A second constructor for the class: PCDataRecord.
-    *          When a PCDataRecord is instantiated and default entries
-    *          for the 3 properties - PC_Name/PC_ID/IP_Address - are
-	*          provided by the calling class, this constructor will run.
-    * @param   PC_Name, PC_ID and IP_Address.
+    *          When a QuestionDataRecord is instantiated and default entries
+    *          for the 8 properties - QuestionNumber/Topic/Question/AnswerA/
+    *          AnswerB/AnswerC/AnswerD/CorrectAnswer - are provided 
+    *          by the calling class, this constructor will run.
+    * @param   QuestionNumber, Topic, Question, AnswerA, AnswerB, AnswerC, AnswerD, CorrectAnswer.
     * @returns Not applicable.
     * ----------------------------------------------------------
     */    
@@ -67,12 +69,13 @@ public class QuestionDataRecord
     
     /** --------------------------------------------------------
     * Purpose: A method that will allow the calling class to set the
-    *          3 properties - Name/ID/IP_Address - all at the one time.
-    * @param   PC_Name, PC_ID and IP_Address.
+    *          8 properties - QuestionNumber/Topic/Question/AnswerA/
+    *          AnswerB/AnswerC/AnswerD/CorrectAnswer - all at the one time.
+    * @param   QuestionNumber, Topic, Question, AnswerA, AnswerB, AnswerC, AnswerD, CorrectAnswer.
     * @returns nothing (void).
     * ----------------------------------------------------------
     */    
-   public void setPersonInfo(String questionNumber, String topic, String question,
+   public void setQuestionInfo(String questionNumber, String topic, String question,
             String answerA, String answerB, String answerC, String answerD, String correctAnswer)
     {    
         QuestionNumber = questionNumber;
@@ -87,9 +90,9 @@ public class QuestionDataRecord
    
     /** --------------------------------------------------------
     * Purpose: A method that will allow the calling class to set
-    *          the PCName property.
+    *          the QuestionNumber property.
     *          This method could include code to validate incoming
-    *          PC_Name data.
+    *          QuestionNumber data.
     * @param  0
     * @returns nothing (void).
     * ----------------------------------------------------------
@@ -138,12 +141,12 @@ public class QuestionDataRecord
     
     //<editor-fold defaultstate="collapsed" desc="Getters">
     /** --------------------------------------------------------
-    * Purpose: A method that will allow this PCDataRecord class
-    *          to provide the calling class with the PC_Name data.
+    * Purpose: A method that will allow this QuestionDataRecord class
+    *          to provide the calling class with the QuestionNumber data.
     *          This method allows this class to manage outgoing
-    *          PC_Names.
+    *          QuestionNumber.
     * @param   None.
-    * @returns PCName (String).
+    * @returns QuestionNumber (String).
     * ----------------------------------------------------------
     */
     public String getQuestionNumber()
