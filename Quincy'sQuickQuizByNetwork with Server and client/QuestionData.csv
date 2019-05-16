@@ -1,8 +1,8 @@
-1,Software,OOP is an acronym for:,Orthogonal Oriented Programming,Object Orthogonal Programming,Object Oriented Programming,Orthogonal Output Programming,C
-2,Software,In Java a String is a(n):,object,variable,int,method,A
-3,Software,With reference to the Java statement:  Answer = 5 + 3 * 2   Answer equals:,11,16,10,30,A
-4,History,The Java programming language was originally developed by:,James Gosling,John Napier,Herman Hollerith,Dennis Ritchie,A
-5,History,An abacus can be used to quickly perform:,Integration,Trigonometric calculations,Logarithmic calculations,Arithmetic calculations,D
-6,History,Wilhelm Schickard and Blaise Pascal created:,Integrated Circuits,Transistors,IBM compatible computers,Mechanical calculators,D
-7,Networking,TCP/IP is an acronym for:,Transmission Control Protocol/Internet Programming,Transmission Control Protocol/Internet Protocol,Transmission Centred Protocol/Internet Protocol,Transmission Centric Protocol/Internet Protocol,B
-8,Networking,Slots on a motherboard that allow external devices to be connected are called:,IP Addresses,RAM,CPUs,Ports,D
+1,Software,OOP is an acronym for?,Orthogonal Oriented Programming,Object Orthogonal Programming,Object Oriented Programming,Orthogonal Output Programming,C
+2,Software,In Java a String is a(n),object,variable,int,method,A
+3,Software,With reference to the Java statement Answer = 5 + 3 * 2. The answer would equal,11,16,10,30,A
+4,History,The Java programming language was originally developed by,James Gosling,John Napier,Herman Hollerith,Dennis Ritchie,A
+5,History,An abacus can be used to quickly perform,Integration,Trigonometric calculations,Logarithmic calculations,Arithmetic calculations,D
+6,History,Wilhelm Schickard and Blaise Pascal created,Integrated Circuits,Transistors,IBM compatible computers,Mechanical calculators,D
+7,Networking,TCP/IP is an acronym for,Transmission Control Protocol/Internet Programming,Transmission Control Protocol/Internet Protocol,Transmission Centred Protocol/Internet Protocol,Transmission Centric Protocol/Internet Protocol,B
+8,Networking,Slots on a motherboard that allow external devices to be connected are called,IP Addresses,RAM,CPUs,Ports,D

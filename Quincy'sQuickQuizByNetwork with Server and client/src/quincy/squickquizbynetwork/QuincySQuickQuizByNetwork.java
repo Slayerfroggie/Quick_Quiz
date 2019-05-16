@@ -76,6 +76,8 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     DList dlist;
     
+    String handleString;
+    
     BinaryTree theTree = new BinaryTree();
     
     // datafile with questions and their data
@@ -583,12 +585,15 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         try
         {
             streamOut.writeUTF(
+                "Ins" + "," +
+                dataValues.get(currentEntry)[0].toString() + "," + 
                 dataValues.get(currentEntry)[1].toString() + "," + 
                 dataValues.get(currentEntry)[2].toString() + "," +
                 dataValues.get(currentEntry)[3].toString() + "," +
                 dataValues.get(currentEntry)[4].toString() + "," +
                 dataValues.get(currentEntry)[5].toString() + "," +
-                dataValues.get(currentEntry)[2].toString()
+                dataValues.get(currentEntry)[6].toString() + "," +
+                dataValues.get(currentEntry)[7].toString()
             );
             
             streamOut.flush();
@@ -609,8 +614,9 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         }
         else
         {
-            System.out.println("Handle: " + msg);
+            System.out.println("Handle:" + msg);
             System.out.println(msg);
+            handleString = msg;
         }
     }
     
@@ -623,7 +629,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         }
         catch (IOException ioe)
         {
-            println("Error opening output stream: " + ioe);
+            System.out.println("Error opening output stream: " + ioe);
         }
     }
 
@@ -642,16 +648,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         }
         catch (IOException ioe)
         {
-            println("Error closing ...");
+            System.out.println("Error closing ...");
         }
         client1.close();
         client1.stop();
-    }
-
-    void println(String msg)
-    {
-        //display.appendText(msg + "\n");
-        txtLinkedList.setText(msg);
     }
 
     public void getParameters()

@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,8 +32,10 @@ public class QuickQuizChild extends JFrame implements ActionListener
     private JButton btnSendQuestion;
     
     // All Textareas
-    public JTextArea txtServerdialog, txtTopic, txtQuestion, txtStudentName,
+    public JTextArea txtServerDialog, txtTopic, txtQuestion, txtStudentName,
             txtAnswerA, txtAnswerB, txtAnswerC, txtAnswerD, txtStudentAnswer;
+    
+    String handleString;
     
     private Socket socket = null;
     private DataInputStream console = null;
@@ -120,9 +123,10 @@ public class QuickQuizChild extends JFrame implements ActionListener
         txtAnswerC = LibraryComponents.LocateAJTextArea(this, layout, 51, 282, 35, 2);
         txtAnswerD = LibraryComponents.LocateAJTextArea(this, layout, 51, 322, 35, 2);
         txtStudentAnswer = LibraryComponents.LocateAJTextArea(this, layout, 98, 369, 1, 1);
-        txtServerdialog = LibraryComponents.LocateAJTextArea(this, layout, 6, 395, 39, 4);
+        txtServerDialog = LibraryComponents.LocateAJTextArea(this, layout, 6, 395, 39, 4);
         
         txtStudentAnswer.setEditable(true);
+        txtStudentName.setEditable(true);
     }
 
     private void displayButtons(SpringLayout layout)
@@ -143,6 +147,7 @@ public class QuickQuizChild extends JFrame implements ActionListener
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Server Methods">
     public void connect(String serverName, int serverPort)
     {
         System.out.println("Establishing connection. Please wait ...");
@@ -185,8 +190,10 @@ public class QuickQuizChild extends JFrame implements ActionListener
         }
         else
         {
-            System.out.println("Handle: " + msg);
+            System.out.println("Handle:" + msg);
             System.out.println(msg);
+            handleString = msg;
+            DisplayHandleData();
         }
     }
 
@@ -224,12 +231,6 @@ public class QuickQuizChild extends JFrame implements ActionListener
         client2.stop();
     }
 
-    void println(String msg)
-    {
-        //display.appendText(msg + "\n");
-        txtServerdialog.setText("" + msg);
-    }
-
     public void getParameters()
     {
 //        serverName = getParameter("host");
@@ -238,4 +239,26 @@ public class QuickQuizChild extends JFrame implements ActionListener
         serverName = "localhost";
         serverPort = 4444;        
     }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Question Functions">
+    
+    public void DisplayHandleData()
+    {
+        // Split the line of data (from the text file) and put each entry into the
+        //                                             temporary array - temp[]
+        String[] temp1 = handleString.split(":");
+        String[] temp2 = temp1[1].split(",");
+         
+        if (temp2[0] == "Ins")
+        {
+        txtTopic.setText(temp2[2]);
+        txtQuestion.setText(temp2[3]);
+        txtAnswerA.setText(temp2[4]);
+        txtAnswerB.setText(temp2[5]);
+        txtAnswerC.setText(temp2[6]);
+        txtAnswerD.setText(temp2[7]);
+        }
+    }   
+    //</editor-fold>
 }

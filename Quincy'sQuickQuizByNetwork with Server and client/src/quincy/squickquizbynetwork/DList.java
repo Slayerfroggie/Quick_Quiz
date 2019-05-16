@@ -58,8 +58,8 @@ class LinkedListNode
             next.prev = newNode;
         }
         next = newNode;
-        System.out.println("Node with data " + newNode.questionTopic
-                + " appended after Node with data " + questionTopic);
+        //System.out.println("Node with data " + newNode.questionTopic
+               // + " appended after Node with data " + questionTopic);
     }
 
     public void insert(LinkedListNode newNode)
@@ -68,15 +68,15 @@ class LinkedListNode
         newNode.next = this;
         prev.next = newNode;;
         prev = newNode;
-        System.out.println("Node with data " + newNode.questionTopic
-                + " inserted before Node with data " + questionTopic);
+        //.out.println("Node with data " + newNode.questionTopic
+                //+ " inserted before Node with data " + questionTopic);
     }
 
     public void remove()
     {              // remove this Node
         next.prev = prev;                 // bypass this Node
         prev.next = next;
-        System.out.println("Node with data " + questionTopic + " removed");
+        //System.out.println("Node with data " + questionTopic + " removed");
     }
     public String toString(){
         return this.questionTopic + " - " + this.questionQN;
@@ -99,11 +99,11 @@ class DList
         {
             if (current.questionTopic.compareToIgnoreCase(wrd1) == 0)
             {        // is x contained in current Node?
-                System.out.println("Data " + wrd1 + " found");
+                //System.out.println("Data " + wrd1 + " found");
                 return current;               // return Node containing x
             }
         }
-        System.out.println("Data " + wrd1 + " not found");
+        //System.out.println("Data " + wrd1 + " not found");
         return null;
     }
 
@@ -146,15 +146,15 @@ class DList
     {                  // print content of list
         if (head.next == head)
         {             // list is empty, only header Node
-            System.out.println("list empty");
+            //System.out.println("list empty");
             return;
         }
-        System.out.print("list content = ");
+        //System.out.print("list content = ");
         for (LinkedListNode current = head.next; current != head.prev; current = current.next)
         {
-            System.out.print(" " + current.questionQN + " - " + current.questionTopic);
+            //System.out.print(" " + current.questionQN + " - " + current.questionTopic);
         }
-        System.out.println("");
+        //System.out.println("");
     }
 
 //  public static void printList(String[] args)
