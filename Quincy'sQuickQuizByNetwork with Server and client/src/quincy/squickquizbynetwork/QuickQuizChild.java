@@ -33,9 +33,11 @@ public class QuickQuizChild extends JFrame implements ActionListener
     
     // All Textareas
     public JTextArea txtServerDialog, txtTopic, txtQuestion, txtStudentName,
-            txtAnswerA, txtAnswerB, txtAnswerC, txtAnswerD, txtStudentAnswer;
+            txtAnswerA, txtAnswerB, txtAnswerC, txtAnswerD, txtStudentAns;
     
     String handleString;
+    
+    String sendString;
     
     private Socket socket = null;
     private DataInputStream console = null;
@@ -122,10 +124,10 @@ public class QuickQuizChild extends JFrame implements ActionListener
         txtAnswerB = LibraryComponents.LocateAJTextArea(this, layout, 51, 242, 35, 2);
         txtAnswerC = LibraryComponents.LocateAJTextArea(this, layout, 51, 282, 35, 2);
         txtAnswerD = LibraryComponents.LocateAJTextArea(this, layout, 51, 322, 35, 2);
-        txtStudentAnswer = LibraryComponents.LocateAJTextArea(this, layout, 98, 369, 1, 1);
+        txtStudentAns = LibraryComponents.LocateAJTextArea(this, layout, 98, 369, 1, 1);
         txtServerDialog = LibraryComponents.LocateAJTextArea(this, layout, 6, 395, 39, 4);
         
-        txtStudentAnswer.setEditable(true);
+        txtStudentAns.setEditable(true);
         txtStudentName.setEditable(true);
     }
 
@@ -142,7 +144,14 @@ public class QuickQuizChild extends JFrame implements ActionListener
     {
         if (e.getSource() == btnSendQuestion)
         {
-            send();
+            if (txtStudentName.getText() == "" && txtStudentAns.getText() == "")
+            {
+                JOptionPane.showMessageDialog(null, "Please Enter Answer and/or Name");
+            }
+            else
+            {
+                send();
+            }
         }
     }
     //</editor-fold>
@@ -171,7 +180,11 @@ public class QuickQuizChild extends JFrame implements ActionListener
     {
         try
         {
-            streamOut.writeUTF(txtStudentAnswer.getText());
+            streamOut.writeUTF(
+            "Child" + "," +      
+            sendString + "," +
+            txtStudentAns.getText().toUpperCase()
+            );
             streamOut.flush();
         }
         catch (IOException ioe)
@@ -249,8 +262,8 @@ public class QuickQuizChild extends JFrame implements ActionListener
         //                                             temporary array - temp[]
         String[] temp1 = handleString.split(":");
         String[] temp2 = temp1[1].split(",");
-         
-        if (temp2[0] == "Ins")
+        
+        if (temp2[0].equals("Ins"))
         {
         txtTopic.setText(temp2[2]);
         txtQuestion.setText(temp2[3]);
@@ -259,6 +272,12 @@ public class QuickQuizChild extends JFrame implements ActionListener
         txtAnswerC.setText(temp2[6]);
         txtAnswerD.setText(temp2[7]);
         }
+        
+        for(int i = 0; i< temp2.length; i++) 
+        {
+            sendString = temp2[1] + "," + temp2[2] + "," + temp2[8];
+        }
+        
     }   
     //</editor-fold>
 }

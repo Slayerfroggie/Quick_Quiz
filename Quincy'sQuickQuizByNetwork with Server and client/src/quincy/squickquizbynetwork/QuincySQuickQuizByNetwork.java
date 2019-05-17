@@ -662,4 +662,26 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         serverName = "localhost";
         serverPort = 4444;        
     }
+    
+    //<editor-fold defaultstate="collapsed" desc="Question Functions">
+    
+    public void DisplayHandleData()
+    {
+        // Split the line of data (from the text file) and put each entry into the
+        //                                             temporary array - temp[]
+        String[] temp1 = handleString.split(":");
+        String[] temp2 = temp1[1].split(",");
+        
+        if (temp2[0].equals("Child"))
+        {
+            printLinkedList();
+        }
+        
+        //for(int i = 0; i< temp2.length; i++) 
+        //{
+        //    sendString = temp2[1] + "," + temp2[2] + "," + temp2[8];
+        //}
+        
+    }   
+    //</editor-fold>
 }
