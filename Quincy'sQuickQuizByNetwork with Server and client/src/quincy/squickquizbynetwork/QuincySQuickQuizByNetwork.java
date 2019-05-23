@@ -78,7 +78,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     String handleString;
     
-    String LinkedListString;
+    String linkedListTopic;
+    String linkedListQn;
+    
+    int headCount = 0;
     
     int IncorrectAns = 0;
     
@@ -446,8 +449,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
                 QuestionInfo[i] = new QuestionDataRecord(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7]);
                 
-                dlist.head.append(new LinkedListNode(temp[1], Integer.parseInt(temp[0]), Integer.parseInt(temp[0])));
-                
                 theTree.addNode(Integer.parseInt(temp[0]), temp[1]);
 
                 dataValues.add(new Object[]
@@ -548,7 +549,22 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Print Linked List">
+    //<editor-fold defaultstate="collapsed" desc="Linked List">
+    
+    public void find()
+    {          // find LinkedListNode containing x
+        for (LinkedListNode current = dlist.head.next; current != dlist.head; current = current.next)
+        {
+            if (current.questionTopic.compareToIgnoreCase(linkedListQn) == 0)
+            {        // is x contained in current Node?
+                //System.out.println("Data " + wrd1 + " found");
+                IncorrectAns = IncorrectAns + 1;
+            }
+        }
+        //System.out.println("Data " + wrd1 + " not found");
+        printLinkedList();
+    }
+    
     public void printLinkedList()
     {                  // print content of list
         if (dlist.head.next == dlist.head)
@@ -556,10 +572,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             txtLinkedList.setText("list empty");
             return;
         }
-        txtLinkedList.setText("HEAD <-> ");
+        txtLinkedList.setText("HEAD <==> ");
         for (LinkedListNode current = dlist.head.next; current != dlist.head.prev; current = current.next)
         {
-            txtLinkedList.append(LinkedListString + " - " + IncorrectAns + " students" + " <-> ");
+            txtLinkedList.append(linkedListTopic + " - Qn# " + linkedListQn + " - " + IncorrectAns + " students" + " <==> ");
         }
         txtLinkedList.append("TAIL");
     }
@@ -680,11 +696,17 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         String[] temp1 = handleString.split(":");
         String[] temp2 = temp1[1].split(",");
         
-        if (temp2[0].equals("Child") && temp2[3] != temp2[4])
+        
+        if (temp2[0].equals("Child") && !temp2[3].equals(temp2[4]))
         {
-            LinkedListString = temp2[2] + " - QN " + temp2[1];
+            dlist.head.append(new LinkedListNode(temp2[2], Integer.parseInt(temp2[1]), IncorrectAns));
+
+            linkedListTopic = temp2[2];
+            linkedListQn =  temp2[1];
             IncorrectAns = IncorrectAns + 1;
+
             printLinkedList();
+            //find();
         }
     }   
     //</editor-fold>
