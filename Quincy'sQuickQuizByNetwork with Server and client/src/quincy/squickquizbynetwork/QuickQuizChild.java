@@ -144,7 +144,7 @@ public class QuickQuizChild extends JFrame implements ActionListener
     {
         if (e.getSource() == btnSendQuestion)
         {
-            if (txtStudentName.getText() == "" && txtStudentAns.getText() == "")
+            if (txtStudentName.getText().equals("") || txtStudentAns.getText().equals(""))
             {
                 JOptionPane.showMessageDialog(null, "Please Enter Answer and/or Name");
             }
@@ -180,12 +180,11 @@ public class QuickQuizChild extends JFrame implements ActionListener
     {
         try
         {
-            streamOut.writeUTF(
-            "Child" + "," +      
-            sendString + "," +
-            txtStudentAns.getText().toUpperCase()
-            );
+            streamOut.writeUTF("Child" + "," + sendString + "," + txtStudentAns.getText().toUpperCase());
+            
             streamOut.flush();
+            
+            System.exit(0);
         }
         catch (IOException ioe)
         {
