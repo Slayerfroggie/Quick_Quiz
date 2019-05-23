@@ -265,19 +265,15 @@ public class QuickQuizChild extends JFrame implements ActionListener
         
         if (temp2[0].equals("Ins"))
         {
-        txtTopic.setText(temp2[2]);
-        txtQuestion.setText(temp2[3]);
-        txtAnswerA.setText(temp2[4]);
-        txtAnswerB.setText(temp2[5]);
-        txtAnswerC.setText(temp2[6]);
-        txtAnswerD.setText(temp2[7]);
-        }
-        
-        for(int i = 0; i< temp2.length; i++) 
-        {
             sendString = temp2[1] + "," + temp2[2] + "," + temp2[8];
+            
+            txtTopic.setText(temp2[2]);
+            txtQuestion.setText(temp2[3]);
+            txtAnswerA.setText(temp2[4]);
+            txtAnswerB.setText(temp2[5]);
+            txtAnswerC.setText(temp2[6]);
+            txtAnswerD.setText(temp2[7]);
         }
-        
     }   
     //</editor-fold>
 }
