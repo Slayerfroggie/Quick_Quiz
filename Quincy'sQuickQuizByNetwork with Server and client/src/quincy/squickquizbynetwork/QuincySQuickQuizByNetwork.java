@@ -78,6 +78,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     String handleString;
     
+    String LinkedListString;
+    
+    int IncorrectAns = 0;
+    
     BinaryTree theTree = new BinaryTree();
     
     // datafile with questions and their data
@@ -552,14 +556,16 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             txtLinkedList.setText("list empty");
             return;
         }
-        txtLinkedList.setText("list content = ");
+        txtLinkedList.setText("HEAD <-> ");
         for (LinkedListNode current = dlist.head.next; current != dlist.head.prev; current = current.next)
         {
-            txtLinkedList.append(current.questionQN + " - " + current.questionTopic + ", ");
+            txtLinkedList.append(LinkedListString + " - " + IncorrectAns + " students" + " <-> ");
         }
-        txtLinkedList.append("");
+        txtLinkedList.append("TAIL");
     }
     //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Server Functions">
     
     public void connect(String serverName, int serverPort)
     {
@@ -617,6 +623,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             System.out.println("Handle:" + msg);
             System.out.println(msg);
             handleString = msg;
+            DisplayHandleData();
         }
     }
     
@@ -662,6 +669,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         serverName = "localhost";
         serverPort = 4444;        
     }
+    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Question Functions">
     
@@ -672,16 +680,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         String[] temp1 = handleString.split(":");
         String[] temp2 = temp1[1].split(",");
         
-        if (temp2[0].equals("Child"))
+        if (temp2[0].equals("Child") && temp2[3] != temp2[4])
         {
+            LinkedListString = temp2[2] + " - QN " + temp2[1];
+            IncorrectAns = IncorrectAns + 1;
             printLinkedList();
         }
-        
-        //for(int i = 0; i< temp2.length; i++) 
-        //{
-        //    sendString = temp2[1] + "," + temp2[2] + "," + temp2[8];
-        //}
-        
     }   
     //</editor-fold>
 }
