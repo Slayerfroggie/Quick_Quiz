@@ -58,7 +58,8 @@ public class BinaryTree
 
                     }
 
-                } else
+                } 
+                else
                 { // If we get here put the node on the right
 
                     focusNode = focusNode.rightChild;
@@ -92,7 +93,7 @@ public class BinaryTree
 
             // Visit the currently focused on node
             //System.out.println(focusNode);
-            traverseInOrderString = traverseInOrderString + ",  " + focusNode.toString();
+            traverseInOrderString = traverseInOrderString + focusNode.toString() + ",  ";
             // Traverse the right node
             inOrderTraverseTree(focusNode.rightChild);
 
@@ -105,7 +106,7 @@ public class BinaryTree
         {
             //System.out.println(focusNode);
             
-            traversePreOrderString = traversePreOrderString + ",  " + focusNode.toString();
+            traversePreOrderString = traversePreOrderString + focusNode.toString() + ",  ";
 
             preorderTraverseTree(focusNode.leftChild);
             preorderTraverseTree(focusNode.rightChild);
@@ -123,7 +124,7 @@ public class BinaryTree
 
             //System.out.println(focusNode);
             
-            traversePostOrderString = traversePostOrderString + ",  " + focusNode.toString();
+            traversePostOrderString = traversePostOrderString + focusNode.toString() + ",  ";
         }
 
     }
