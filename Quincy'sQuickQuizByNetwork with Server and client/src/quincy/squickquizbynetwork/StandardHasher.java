@@ -25,78 +25,106 @@ import com.tomgibara.hashing.Hasher;
 import com.tomgibara.hashing.HashSize;
 import com.tomgibara.hashing.HashCode;
 
-class StandardHasher<T> implements Hasher<T> {
+class StandardHasher<T> implements Hasher<T> 
+{
 
-	private final Hash hash;
-	private final StreamSerializer<T> serializer;
+    private final Hash hash;
+    private final StreamSerializer<T> serializer;
 
-	StandardHasher(Hash hash, StreamSerializer<T> serializer) {
-		this.hash = hash;
-		this.serializer = serializer;
-	}
+    StandardHasher(Hash hash, StreamSerializer<T> serializer) 
+    {
+        this.hash = hash;
+        this.serializer = serializer;
+    }
 
-	@Override
-	public HashSize getSize() {
-		return hash.getSize();
-	}
+    @Override
+    public HashSize getSize() 
+    {
+        return hash.getSize();
+    }
 
-	@Override
-	public int getQuantity() {
-		return hash.getQuantity();
-	}
+    @Override
+    public int getQuantity() 
+    {
+        return hash.getQuantity();
+    }
 
-	@Override
-	public HashCode hash(T value) {
-		return hash.hash(stream(value));
-	}
+    @Override
+    public HashCode hash(T value) 
+    {
+        return hash.hash(stream(value));
+    }
 
-	@Override
-	public byte[] bytesHashValue(T value) {
-		return hash.bytesHashValue(stream(value));
-	}
+    @Override
+    public byte[] bytesHashValue(T value) 
+    {
+        return hash.bytesHashValue(stream(value));
+    }
 
-	@Override
-	public BigInteger bigHashValue(T value) {
-		return hash.bigHashValue(stream(value));
-	}
+    @Override
+    public BigInteger bigHashValue(T value) 
+    {
+        return hash.bigHashValue(stream(value));
+    }
 
-	@Override
-	public long longHashValue(T value) {
-		return hash.longHashValue(stream(value));
-	}
+    @Override
+    public long longHashValue(T value) 
+    {
+        return hash.longHashValue(stream(value));
+    }
 
-	@Override
-	public int intHashValue(T value) {
-		return hash.intHashValue(stream(value));
-	}
+    @Override
+    public int intHashValue(T value) 
+    {
+        return hash.intHashValue(stream(value));
+    }
 
-	WriteStream newStream() {
-		return hash.newStream();
-	}
+    WriteStream newStream() 
+    {
+        return hash.newStream();
+    }
 
-	private WriteStream stream(T value) {
-		WriteStream stream = newStream();
-		serializer.serialize(value, stream);
-		return stream;
-	}
+    private WriteStream stream(T value) 
+    {
+        WriteStream stream = newStream();
+        serializer.serialize(value, stream);
+        return stream;
+    }
 
-	@Override
-	public int hashCode() {
-		return hash.hashCode() + serializer.hashCode();
-	}
+    @Override
+    public int hashCode() 
+    {
+        return hash.hashCode() + serializer.hashCode();
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) return true;
-		if (!(obj instanceof StandardHasher)) return false;
-		StandardHasher<?> that = (StandardHasher<?>) obj;
-		if (!this.hash.equals(that.hash)) return false;
-		if (!this.serializer.equals(that.serializer)) return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (obj == this) 
+        {
+            return true;
+        }
+        if (!(obj instanceof StandardHasher)) 
+        {
+            return false;
+        }
+        
+        StandardHasher<?> that = (StandardHasher<?>) obj;
+        
+        if (!this.hash.equals(that.hash)) 
+        {
+            return false;
+        }
+        if (!this.serializer.equals(that.serializer)) 
+        {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return hash + " <- " + serializer;
-	}
+    @Override
+    public String toString() 
+    {
+        return hash + " <- " + serializer;
+    }
 }
