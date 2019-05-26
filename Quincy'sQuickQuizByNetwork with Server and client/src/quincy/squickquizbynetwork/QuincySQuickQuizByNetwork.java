@@ -28,6 +28,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import javax.swing.SpringLayout;
 import javax.swing.table.AbstractTableModel;
+//import com.tomgibara.hashing.h;
 //</editor-fold>
 
 /**
@@ -78,8 +79,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     String handleString;
     
+    
     String linkedListTopic;
     String linkedListQn;
+    
+    int childCount = 0;
+    int childResponseCount = 0;
     
     int headCount = 0;
     
@@ -140,6 +145,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         setResizable(false);
 
         setVisible(true);
+        
+        btnPreOrderSave.setEnabled(false);
+        btnInOrderSave.setEnabled(false);
+        btnPostOrderSave.setEnabled(false);
     }
 
     private void displayGUI()
@@ -363,6 +372,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             txtBinaryTree.setText("");
             theTree.preorderTraverseTree(theTree.root);
             txtBinaryTree.setText("Pre-Order: " + theTree.traversePreOrderString);
+            
+            btnPreOrderSave.setEnabled(true);
+            btnInOrderSave.setEnabled(false);
+            btnPostOrderSave.setEnabled(false);
         }
 
         if (e.getSource() == btnInOrderSave)
@@ -377,6 +390,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             txtBinaryTree.setText("");
             theTree.inOrderTraverseTree(theTree.root);
             txtBinaryTree.setText("In-Order: " + theTree.traverseInOrderString);
+            
+            btnPreOrderSave.setEnabled(false);
+            btnInOrderSave.setEnabled(true);
+            btnPostOrderSave.setEnabled(false);
         }
 
         if (e.getSource() == btnPostOrderSave)
@@ -391,6 +408,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             txtBinaryTree.setText("");
             theTree.postOrderTraverseTree(theTree.root);
             txtBinaryTree.setText("Post-Order: " + theTree.traversePostOrderString);
+            
+            btnPreOrderSave.setEnabled(false);
+            btnInOrderSave.setEnabled(false);
+            btnPostOrderSave.setEnabled(true);
         }
     }
 
@@ -448,8 +469,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
                 String[] temp = line.split(",");
 
                 QuestionInfo[i] = new QuestionDataRecord(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7]);
-                
-                theTree.addNode(Integer.parseInt(temp[0]), temp[1]);
 
                 dataValues.add(new Object[]
                 {
@@ -565,6 +584,21 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         printLinkedList();
     }
     
+//    public void print()
+//    {                  // print content of list
+//        if (head.next == head)
+//        {             // list is empty, only header Node
+//            //System.out.println("list empty");
+//            return;
+//        }
+//        //System.out.print("list content = ");
+//        for (LinkedListNode current = head.next; current != head.prev; current = current.next)
+//        {
+//            //System.out.print(" " + current.questionQN + " - " + current.questionTopic);
+//        }
+//        //System.out.println("");
+//    }
+    
     public void printLinkedList()
     {                  // print content of list
         if (dlist.head.next == dlist.head)
@@ -618,7 +652,17 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
                 dataValues.get(currentEntry)[7].toString()
             );
             
+            theTree.addNode(Integer.parseInt(dataValues.get(currentEntry)[0].toString()), dataValues.get(currentEntry)[1].toString());
+            
+            linkedListQn = (dataValues.get(currentEntry)[0].toString());
+            linkedListTopic = (dataValues.get(currentEntry)[1].toString());
+            dlist.head.append(new LinkedListNode(linkedListTopic, Integer.parseInt(linkedListQn), IncorrectAns));
+            
+            printLinkedList();
+            
             streamOut.flush();
+            
+            btnSendQuestion.setEnabled(false);
         }
         catch (IOException ioe)
         {
@@ -629,18 +673,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     public void handle(String msg)
     {
-        if (msg.equals(".bye"))
-        {
-            System.out.println("Good bye. Press EXIT button to exit ...");
-            close();
-        }
-        else
-        {
-            System.out.println("Handle:" + msg);
-            System.out.println(msg);
-            handleString = msg;
-            DisplayHandleData();
-        }
+        System.out.println("Handle:" + msg);
+        System.out.println(msg);
+        handleString = msg;
+        DisplayHandleData();
     }
     
     public void open()
@@ -696,18 +732,39 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         String[] temp1 = handleString.split(":");
         String[] temp2 = temp1[1].split(",");
         
-        
-        if (temp2[0].equals("Child") && !temp2[3].equals(temp2[4]))
+        if (temp1[1].equals("Count"))
         {
-            dlist.head.append(new LinkedListNode(temp2[2], Integer.parseInt(temp2[1]), IncorrectAns));
-
-            linkedListTopic = temp2[2];
-            linkedListQn =  temp2[1];
+            childCount = childCount + 1;
+        }
+        else if (temp2[0].equals("Child") && !temp2[3].equals(temp2[4]))
+        {
+            //linkedListTopic = temp2[2];
+            //linkedListQn =  temp2[1];
+            
             IncorrectAns = IncorrectAns + 1;
-
             printLinkedList();
             //find();
         }
-    }   
+        
+        if(temp2[0].equals("Child"))
+        {
+            childResponseCount = childResponseCount + 1;
+            
+            if(childResponseCount == childCount)
+            {
+                btnSendQuestion.setEnabled(true);
+                IncorrectAns = 0;
+                childResponseCount = 0;
+                childCount = 0;
+            }
+        }
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Hashing">
+    
+    
+    
     //</editor-fold>
 }
