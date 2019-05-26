@@ -79,7 +79,9 @@ public class QuickQuizChild extends JFrame implements ActionListener
         getParameters();
         
         connect(serverName, serverPort);
-
+        
+        sendForCount();
+        
         displayGUI();
 
         setResizable(false);
@@ -173,6 +175,21 @@ public class QuickQuizChild extends JFrame implements ActionListener
         catch (IOException ioe)
         {
             System.out.println("Unexpected exception: " + ioe.getMessage());
+        }
+    }
+    
+    private void sendForCount()
+    {
+        try
+        {
+            streamOut.writeUTF("Count");
+            
+            streamOut.flush();
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("Count sending error: " + ioe.getMessage());
+            close();
         }
     }
 
