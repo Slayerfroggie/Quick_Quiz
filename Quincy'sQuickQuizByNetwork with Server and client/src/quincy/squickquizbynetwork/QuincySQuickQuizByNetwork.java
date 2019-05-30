@@ -1,3 +1,18 @@
+/**
+ * Class: QuincySQuickQuizByNetork
+ * 
+ * @author Franciscus Sluyter
+ * 
+ * Developed: 2019
+ * 
+ * Purpose: Java application that sends questions to students via a network. The sent 
+ * question is added to Binary Tree as a node. Once the question is answered by the 
+ * child programs the value of incorrect answers is applied to a linked list in a 
+ * node that has question number and topic. It also has the ability to hash and export
+ * the binary tree as a file. 
+ * 
+ */
+
 package quincy.squickquizbynetwork;
 
 //<editor-fold defaultstate="collapsed" desc="Libraries">
@@ -30,10 +45,6 @@ import javax.swing.SpringLayout;
 import javax.swing.table.AbstractTableModel;
 //import com.tomgibara.hashing.h;
 //</editor-fold>
-
-/**
- * @author Franciscus Sluyter
- */
 
 public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener, MouseListener
 {
@@ -735,6 +746,15 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         if (temp1[1].equals("Count"))
         {
             childCount = childCount + 1;
+        }
+        if (temp1[1].equals("Countdown"))
+        {
+            childCount = childCount - 1;
+            
+            if (childCount == 0)
+            {
+                btnSendQuestion.setEnabled(true);
+            }
         }
         else if (temp2[0].equals("Child") && !temp2[3].equals(temp2[4]))
         {
