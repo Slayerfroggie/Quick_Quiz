@@ -70,6 +70,7 @@ public class QuickQuizChild extends JFrame implements ActionListener
             @Override
             public void windowClosing(WindowEvent e)
             {
+                sendForCountdown();
                 System.exit(0);
             }
         });
@@ -188,6 +189,21 @@ public class QuickQuizChild extends JFrame implements ActionListener
         catch (IOException ioe)
         {
             System.out.println("Count sending error: " + ioe.getMessage());
+            close();
+        }
+    }
+    
+    private void sendForCountdown()
+    {
+        try
+        {
+            streamOut.writeUTF("Countdown");
+            
+            streamOut.flush();
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("Countdown sending error: " + ioe.getMessage());
             close();
         }
     }
