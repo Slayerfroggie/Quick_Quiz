@@ -27,7 +27,7 @@ public class ChatServer implements Runnable
         }
         catch (IOException ioe)
         {
-            System.out.println("Can not bind to port " + port + ": " + ioe.getMessage());
+            System.out.println("Cannot bind to port " + port + ": " + ioe.getMessage());
         }
     }
 
