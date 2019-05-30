@@ -595,21 +595,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         printLinkedList();
     }
     
-//    public void print()
-//    {                  // print content of list
-//        if (head.next == head)
-//        {             // list is empty, only header Node
-//            //System.out.println("list empty");
-//            return;
-//        }
-//        //System.out.print("list content = ");
-//        for (LinkedListNode current = head.next; current != head.prev; current = current.next)
-//        {
-//            //System.out.print(" " + current.questionQN + " - " + current.questionTopic);
-//        }
-//        //System.out.println("");
-//    }
-    
     public void printLinkedList()
     {                  // print content of list
         if (dlist.head.next == dlist.head)
@@ -620,7 +605,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         txtLinkedList.setText("HEAD <==> ");
         for (LinkedListNode current = dlist.head.next; current != dlist.head.prev; current = current.next)
         {
-            txtLinkedList.append(linkedListTopic + " - Qn# " + linkedListQn + " - " + IncorrectAns + " students" + " <==> ");
+            txtLinkedList.append(current.questionTopic + " - Qn# " + current.questionQN + " - " + current.questionFailures + " students" + " <==> ");
         }
         txtLinkedList.append("TAIL");
     }
@@ -667,9 +652,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             
             linkedListQn = (dataValues.get(currentEntry)[0].toString());
             linkedListTopic = (dataValues.get(currentEntry)[1].toString());
-            dlist.head.append(new LinkedListNode(linkedListTopic, Integer.parseInt(linkedListQn), IncorrectAns));
-            
-            printLinkedList();
+            IncorrectAns = 0;
             
             streamOut.flush();
             
@@ -762,7 +745,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             //linkedListQn =  temp2[1];
             
             IncorrectAns = IncorrectAns + 1;
-            printLinkedList();
             //find();
         }
         
@@ -772,7 +754,11 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             
             if(childResponseCount == childCount)
             {
+                dlist.head.append(new LinkedListNode(linkedListTopic, Integer.parseInt(linkedListQn), IncorrectAns));
+                printLinkedList();
+                
                 btnSendQuestion.setEnabled(true);
+                
                 IncorrectAns = 0;
                 childResponseCount = 0;
                 childCount = 0;
