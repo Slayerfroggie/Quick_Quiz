@@ -216,7 +216,7 @@ class BinaryTreeNode
     public String toString()
     {
 
-        return name + " has the key " + key;
+        return key + "-" + name;
 
         /*
 		 * return name + " has the key " + key + "\nLeft Child: " + leftChild +
