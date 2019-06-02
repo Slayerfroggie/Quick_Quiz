@@ -360,10 +360,10 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnSendQuestion)
         {
-            send();
-            //prints linked list WILL BE REMOVED LATER
-            //dlist.print();
-            //printLinkedList();
+            if(childCount != 0)
+            {
+                send();
+            }
         }
 
         if (e.getSource() == btnBinaryTreeDisplay)
