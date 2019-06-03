@@ -16,6 +16,9 @@
 package quincy.squickquizbynetwork;
 
 //<editor-fold defaultstate="collapsed" desc="Libraries">
+import com.tomgibara.hashing.HashCode;
+import com.tomgibara.hashing.Hasher;
+import com.tomgibara.hashing.Hashing;
 import javax.swing.*;
 import java.net.*;
 import java.io.*;
@@ -86,19 +89,22 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     ArrayList<Object[]> dataValues;
     ArrayList<Object[]> questionValues;
     
+    //connects to the dlist class
     DList dlist;
     
+    // global string to contain any strings from the handle
     String handleString;
     
-    
+    // linked list global variables
     String linkedListTopic;
     String linkedListQn;
     
+    // global variable to contain the count of child programs
     int childCount = 0;
+    // global variable to contain the count of child program responses
     int childResponseCount = 0;
     
-    int headCount = 0;
-    
+    // global variable that is for thenumber of incorrect answers for the current question
     int IncorrectAns = 0;
     
     BinaryTree theTree = new BinaryTree();
@@ -136,6 +142,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             @Override
             public void windowOpened(WindowEvent we)
             {
+                // reads datafile upon program open
                 readFile(dataFileName);
             }
 
@@ -146,9 +153,9 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             }
         });
         
-        //dlist = new DList("r", 0, 0);
         connect(serverName, serverPort);
         
+        // get server params
         getParameters();
         
         displayGUI();
@@ -157,6 +164,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         setVisible(true);
         
+        //disables binary tree save buttons
         btnPreOrderSave.setEnabled(false);
         btnInOrderSave.setEnabled(false);
         btnPostOrderSave.setEnabled(false);
@@ -172,7 +180,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         displayButtons(springLayout);
         displayLabels(springLayout);
         displayTables(springLayout);
-        //displaySelectedQuestion();
     }
     //</editor-fold>
 
@@ -248,6 +255,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 //      {
 //            1", "Software", "OOP is an Acronym for:"
 //      });
+
         // constructor of JTable model
         questionModel = new MyModel(dataValues, columnNames);
 
@@ -373,6 +381,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnPreOrderSave)
         {
+            hashing("PreOrder.csv");
             // will be used once serverside and hashing algorithm is implemented
         }
 
@@ -384,6 +393,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             theTree.preorderTraverseTree(theTree.root);
             txtBinaryTree.setText("Pre-Order: " + theTree.traversePreOrderString);
             
+            // enables saving for this ordering and disables any other possible enabled saves
             btnPreOrderSave.setEnabled(true);
             btnInOrderSave.setEnabled(false);
             btnPostOrderSave.setEnabled(false);
@@ -392,6 +402,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         if (e.getSource() == btnInOrderSave)
         {
             // will be used once serverside and hashing algorithm is implemented
+            hashing("InOrder.csv");
         }
 
         if (e.getSource() == btnInOrderDisplay)
@@ -402,6 +413,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             theTree.inOrderTraverseTree(theTree.root);
             txtBinaryTree.setText("In-Order: " + theTree.traverseInOrderString);
             
+            // enables saving for this ordering and disables any other possible enabled saves
             btnPreOrderSave.setEnabled(false);
             btnInOrderSave.setEnabled(true);
             btnPostOrderSave.setEnabled(false);
@@ -410,6 +422,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         if (e.getSource() == btnPostOrderSave)
         {
             // will be used once serverside and hashing algorithm is implemented
+            hashing("PostOrder.csv");
         }
 
         if (e.getSource() == btnPostOrderDisplay)
@@ -420,6 +433,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             theTree.postOrderTraverseTree(theTree.root);
             txtBinaryTree.setText("Post-Order: " + theTree.traversePostOrderString);
             
+            // enables saving for this ordering and disables any other possible enabled saves
             btnPreOrderSave.setEnabled(false);
             btnInOrderSave.setEnabled(false);
             btnPostOrderSave.setEnabled(true);
@@ -722,7 +736,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     public void DisplayHandleData()
     {
         // Split the line of data (from the text file) and put each entry into the
-        //                                             temporary array - temp[]
+        //temporary array - temp[], in this case we split it twice thus temp1 and temp2
         String[] temp1 = handleString.split(":");
         String[] temp2 = temp1[1].split(",");
         
@@ -732,6 +746,9 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         }
         if (temp1[1].equals("Countdown"))
         {
+            //a countdown in case one if the children exits unexpectedly, so
+            //it doesn't count towards the total children and the instructor
+            //won't be expecting a response
             childCount = childCount - 1;
             
             if (childCount == 0)
@@ -750,8 +767,11 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         
         if(temp2[0].equals("Child"))
         {
+            // add 1 for each response
             childResponseCount = childResponseCount + 1;
             
+            // if the response count equals the number of child programs counted
+            // print a new head for linked list and update it
             if(childResponseCount == childCount)
             {
                 dlist.head.append(new LinkedListNode(linkedListTopic, Integer.parseInt(linkedListQn), IncorrectAns));
@@ -769,7 +789,37 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Hashing">
-    
+    private void hashing(String fileName)
+    // returns the object hashCode
+    {
+        try
+        {
+            BufferedWriter hashFile = new BufferedWriter(new FileWriter(fileName));
+            String[] temp1 = txtBinaryTree.getText().split(": ");
+            String[] temp2 = temp1[1].split(", ");
+
+            Hasher<String> murmur = Hashing.murmur3Int().hasher((s, out) -> out.writeChars(s));
+
+            for (int i = 0; i < temp2.length; i++)
+            {
+            // derive multiple hash values from a single hash function
+                Hasher<String> multiple = murmur.ints();
+                {
+                    HashCode value = multiple.hash(temp2[i]);
+                    value.intValue();
+                    
+                    hashFile.write(value.toString());
+                    hashFile.newLine();
+                }
+            }
+            
+            hashFile.close();
+        }
+        catch (Exception e)
+        {
+            System.err.println("Error Writing File: " + e.getMessage());
+        }
+    }
     
     
     //</editor-fold>
