@@ -49,6 +49,7 @@ import javax.swing.table.AbstractTableModel;
 //import com.tomgibara.hashing.h;
 //</editor-fold>
 
+// Primary Class File - QuincySQuickQuizByNetwork
 public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener, MouseListener
 {
     //<editor-fold defaultstate="collapsed" desc="Global Variables">
@@ -123,6 +124,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Runtime">
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: the start point of the class and application.        
+     * @param args (an array of string based arguments)
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public static void main(String[] args)
     {
         QuincySQuickQuizByNetwork QuizSystem = new QuincySQuickQuizByNetwork();
@@ -130,6 +138,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: Sets up the form and it's various listeners, reads the data
+     *          file, and connects to the chat server
+     * @param None.
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     private void run()
     {
         //sets up all the window based functions bounds, title, listeners, etc.
@@ -169,7 +184,14 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         btnInOrderSave.setEnabled(false);
         btnPostOrderSave.setEnabled(false);
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Constructor for the class: QuincySQuickQuizByNetwork.
+     *          Sets up the form layout
+     * @param None.
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     private void displayGUI()
     {
         //intializes all the frame's components
@@ -184,8 +206,20 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Component Properties">
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Method for managing the addition of multiple labels to the screen
+     * 
+     * @param The Layout manager in use (SpringLayout, Layout).
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     private void displayLabels(SpringLayout layout)
     {
+        // all the labels we are using
+        // label options are X,Y,Font Size,Background RGB, Foreground RGB
+        // all the labels call on the locateAJLabel class from library components
+        
         lblTitle = LibraryComponents.LocateAJLabel(this, layout, "Quincy's Quick Quizzes", 5, 5, 1065, 40, 23, 0, 102, 0, 255, 255, 255, "", "");
         lblSortBy = LibraryComponents.LocateAJLabel(this, layout, "Sort By:", 10, 325, 600, 22, 16, 230, 237, 215, 0, 102, 0, "left", "");
         lblCorrectAns = LibraryComponents.LocateAJLabel(this, layout, "Correct Ans:", 630, 325, 435, 22, 16, 230, 237, 215, 0, 102, 0, "left", "");
@@ -203,7 +237,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         lblAnswerC = LibraryComponents.LocateAJLabel(this, layout, "C:", 630, 238, 435, 40, 16, 230, 237, 215, 0, 102, 0, "left", "top");
         lblAnswerD = LibraryComponents.LocateAJLabel(this, layout, "D:", 630, 278, 435, 40, 16, 230, 237, 215, 0, 102, 0, "left", "top");
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Method for managing the new TextAreas that are being added to the screen
+     * @param The layout manager being used (SpringLayout, layout).
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     public void displayTextAreas(SpringLayout layout)
     {
         txtLinkedList = LibraryComponents.LocateAJTextArea(this, layout, 15, 377, 95, 4);
@@ -216,7 +256,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         txtAnswerD = LibraryComponents.LocateAJTextArea(this, layout, 676, 282, 35, 2);
         txtCorrectAnswer = LibraryComponents.LocateAJTextArea(this, layout, 720, 329, 3, 1);
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Method for managing the addition of multiple Buttons to the screen.
+     * @param   The Layout manager being used (SpringLayout, Layout).
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     private void displayButtons(SpringLayout layout)
     {
         btnQuestionNumber = LibraryComponents.LocateAJButton(this, this, layout, "Question #", 70, 325, 179, 22, 15);
@@ -236,6 +282,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="JTable">
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Method for managing the addition of a table to the screen.
+     * @param   The Layout manager being used (SpringLayout, Layout).
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     private void displayTables(SpringLayout layout)
     {
         // Create a panel to hold all other components
@@ -282,7 +335,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         table.setRowSelectionAllowed(true);
         table.addMouseListener(this);
     }
-
+    
     public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth, double... percentages)
     {
         double total = 0;
@@ -342,6 +395,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Event Listeners">
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Respond to user action events, this will be whatever button is click on the UI
+     * @param  args Array of String arguments.
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */ 
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -439,7 +499,14 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             btnPostOrderSave.setEnabled(true);
         }
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Respond to user mouse events, this will be whenever a cursor clicks
+     *          a cell in the JTable
+     * @param  args Array of String arguments.
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */ 
     public void mouseClicked(MouseEvent e)
     {
         // button event to select questions from the Jtable
@@ -472,6 +539,15 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Read Data File">
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: read in the data from the data file - QuestionData.csv.
+     *          it will read the question number, topic, and question itslef into
+     *          the JTable and will store data for when a question is selected
+     * @param QuestionData (Global QuestionData) 
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     public void readFile(String fileName)
     {
         // Try to read in the data and if an exception occurs go to the Catch section 
@@ -744,25 +820,24 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         {
             childCount = childCount + 1;
         }
+        
         if (temp1[1].equals("Countdown"))
         {
             //a countdown in case one if the children exits unexpectedly, so
             //it doesn't count towards the total children and the instructor
             //won't be expecting a response
+            JOptionPane.showMessageDialog(null, "A student program has been closed unexpectedly");
+            
             childCount = childCount - 1;
             
-            if (childCount == 0)
+            if (childCount == 0 || childResponseCount == childCount)
             {
-                btnSendQuestion.setEnabled(true);
+                appendPrintLinkedList();
             }
         }
         else if (temp2[0].equals("Child") && !temp2[3].equals(temp2[4]))
         {
-            //linkedListTopic = temp2[2];
-            //linkedListQn =  temp2[1];
-            
             IncorrectAns = IncorrectAns + 1;
-            //find();
         }
         
         if(temp2[0].equals("Child"))
@@ -774,18 +849,22 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             // print a new head for linked list and update it
             if(childResponseCount == childCount)
             {
-                dlist.head.append(new LinkedListNode(linkedListTopic, Integer.parseInt(linkedListQn), IncorrectAns));
-                printLinkedList();
-                
-                btnSendQuestion.setEnabled(true);
-                
-                IncorrectAns = 0;
-                childResponseCount = 0;
-                childCount = 0;
+                appendPrintLinkedList();
             }
         }
     }
     
+    public void appendPrintLinkedList()
+    {
+        dlist.head.append(new LinkedListNode(linkedListTopic, Integer.parseInt(linkedListQn), IncorrectAns));
+        printLinkedList();
+
+        btnSendQuestion.setEnabled(true);
+
+        IncorrectAns = 0;
+        childResponseCount = 0;
+        childCount = 0;
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Hashing">
