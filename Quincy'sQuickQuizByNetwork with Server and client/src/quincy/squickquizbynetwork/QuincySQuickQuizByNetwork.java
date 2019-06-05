@@ -442,7 +442,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         if (e.getSource() == btnPreOrderSave)
         {
             hashing("PreOrder.csv");
-            // will be used once serverside and hashing algorithm is implemented
         }
 
         if (e.getSource() == btnPreOrderDisplay)
@@ -461,7 +460,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnInOrderSave)
         {
-            // will be used once serverside and hashing algorithm is implemented
             hashing("InOrder.csv");
         }
 
@@ -481,7 +479,6 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
 
         if (e.getSource() == btnPostOrderSave)
         {
-            // will be used once serverside and hashing algorithm is implemented
             hashing("PostOrder.csv");
         }
 
