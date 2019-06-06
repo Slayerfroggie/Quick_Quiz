@@ -57,7 +57,7 @@ public class QuickQuizChild extends JFrame implements ActionListener
     private void run()
     {
         //sets up all the window based functions bounds, title, listeners, etc.
-        setBounds(100, 200, 450, 493);
+        setBounds(100, 100, 450, 493);
         setTitle("Quiz By Network");
         getContentPane().setBackground(new Color(255, 254, 220));
         addWindowListener(new WindowAdapter()
@@ -83,6 +83,8 @@ public class QuickQuizChild extends JFrame implements ActionListener
         sendForCount();
         
         displayGUI();
+        
+        setUndecorated(true);
 
         setResizable(false);
 
