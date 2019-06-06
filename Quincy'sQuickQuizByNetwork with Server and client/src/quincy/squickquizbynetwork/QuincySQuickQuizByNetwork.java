@@ -832,7 +832,8 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
                 appendPrintLinkedList();
             }
         }
-        else if (temp2[0].equals("Child") && !temp2[3].equals(temp2[4]))
+        
+        if (temp2[0].equals("Child") && !temp2[3].equals(temp2[4]))
         {
             IncorrectAns = IncorrectAns + 1;
         }
