@@ -557,7 +557,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         // Try to read in the data and if an exception occurs go to the Catch section 
         try
         {
-            // Set up vaious streams for reading in the content of the data file.
+            // Set up various streams for reading in the content of the data file.
             FileInputStream fstream = new FileInputStream(fileName);
             DataInputStream in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
