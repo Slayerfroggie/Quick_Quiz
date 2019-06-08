@@ -120,7 +120,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     private ChatClientThread1 client1 = null;
     private String serverName = "localhost";
     private int serverPort = 4444;
-    //----------------------------------------
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Runtime">
@@ -336,6 +336,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         table.addMouseListener(this);
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: sets the width of columns in the JTable       
+     * @param references the JTable, the preferred width and the percentage for each in a double
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth, double... percentages)
     {
         double total = 0;
@@ -350,7 +356,8 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             column.setPreferredWidth((int) (tablePreferredWidth * (percentages[i] / total)));
         }
     }
-
+    
+    // class for the model of the JTable and extends the abract table model
     class MyModel extends AbstractTableModel
     {
 
@@ -539,7 +546,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     /**-------------------------------------------------------------------------
      * Purpose: read in the data from the data file - QuestionData.csv.
-     *          it will read the question number, topic, and question itslef into
+     *          it will read the question number, topic, and question itself into
      *          the JTable and will store data for when a question is selected
      * @param QuestionData (Global QuestionData) 
      * @returns N/A
@@ -595,6 +602,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Sorts">
+    /**-------------------------------------------------------------------------
+     * Purpose: sorts the question number in descending order        
+     * @param arr an array list of objects
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public static void bubbleSort(ArrayList<Object[]> arr)
     {
 
@@ -611,7 +624,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             }
         }
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: sorts the question topic alphabetically        
+     * @param arr an array list of objects
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public static void insertionSort(ArrayList<Object[]> arr)
     {
         int j; // the number of items sorted so far
@@ -630,6 +649,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         }
     }
 
+    /**-------------------------------------------------------------------------
+     * Purpose: sorts the question itself alphabetically        
+     * @param arr an array list of objects
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public static void selectionSort(ArrayList<Object[]> arr)
     {
         int i, j, first;
@@ -652,6 +677,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Display Selected Question">
+    /**-------------------------------------------------------------------------
+     * Purpose: a method that is called on when a question is clicked on the JTable      
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void displaySelectedQuestion()
     {
         currentEntry = table.getSelectedRow();
@@ -668,6 +699,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     //<editor-fold defaultstate="collapsed" desc="Linked List">
     
+    /**-------------------------------------------------------------------------
+     * Purpose: to find specific nodes in the linked list        
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void find()
     {          // find LinkedListNode containing x
         for (LinkedListNode current = dlist.head.next; current != dlist.head; current = current.next)
@@ -682,6 +719,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         printLinkedList();
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: prints the linked list       
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void printLinkedList()
     {                  // print content of list
         if (dlist.head.next == dlist.head)
@@ -700,6 +743,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     //<editor-fold defaultstate="collapsed" desc="Server Functions">
     
+    /**-------------------------------------------------------------------------
+     * Purpose: connects to the chat server       
+     * @param serverName a string of the server's name
+     * @param serverPort the port value of the server
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void connect(String serverName, int serverPort)
     {
         System.out.println("Establishing connection. Please wait ...");
@@ -719,6 +769,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         }
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: sends a message to the server and then to any other open clients
+     *          including itself
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     private void send()
     {
         try
@@ -752,6 +809,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         }
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: getting messages from other client     
+     * @param msg string of what has been received from the server
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void handle(String msg)
     {
         System.out.println("Handle:" + msg);
@@ -760,6 +823,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         DisplayHandleData();
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: opens a thread and socket for the server       
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void open()
     {
         try
@@ -772,7 +841,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             System.out.println("Error opening output stream: " + ioe);
         }
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: closes the socket and threads       
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void close()
     {
         try
@@ -793,7 +868,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         client1.close();
         client1.stop();
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: server name and port used for connection       
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void getParameters()
     {
 //        serverName = getParameter("host");
@@ -806,6 +887,12 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     
     //<editor-fold defaultstate="collapsed" desc="Question Functions">
     
+    /**-------------------------------------------------------------------------
+     * Purpose: a variety of functions related to receiving messages from other clients   
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void DisplayHandleData()
     {
         // Split the line of data (from the text file) and put each entry into the
@@ -813,6 +900,7 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         String[] temp1 = handleString.split(":");
         String[] temp2 = temp1[1].split(",");
         
+        //makes a count of child programs that have been opened
         if (temp1[1].equals("Count"))
         {
             childCount = childCount + 1;
@@ -829,15 +917,20 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
             
             if (childCount == 0 || childResponseCount == childCount)
             {
+                // incase it was the last expected answer, but unexpectedly closed
+                // it will print the linked list
                 appendPrintLinkedList();
             }
         }
         
+        // checks if the answer is incorrect and counting it for the linked list
         if (temp2[0].equals("Child") && !temp2[3].equals(temp2[4]))
         {
             IncorrectAns = IncorrectAns + 1;
         }
         
+        // separate from the incorrect answer check to mkake sure all responses are counted,
+        // this so they can be checked against the number of child programs counted
         if(temp2[0].equals("Child"))
         {
             // add 1 for each response
@@ -852,6 +945,13 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
         }
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: appends a linked list head resets question related operations,
+     *          and prints the linked list
+     * @param arr an array list of objects
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void appendPrintLinkedList()
     {
         dlist.head.append(new LinkedListNode(linkedListTopic, Integer.parseInt(linkedListQn), IncorrectAns));
@@ -866,8 +966,16 @@ public class QuincySQuickQuizByNetwork extends JFrame implements ActionListener,
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Hashing">
+    /**-------------------------------------------------------------------------
+     * Purpose: gets the printed binary tree, splits and hashes the strings, and
+     *          puts it into a .csv data file. this code relies on the 2 third party
+     *          libraries to function
+     * @param fileName a string that determines the file's name, these are determined
+     *        in the button events
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     private void hashing(String fileName)
-    // returns the object hashCode
     {
         try
         {
