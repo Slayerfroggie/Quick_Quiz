@@ -1,4 +1,16 @@
-
+/**
+ * Class: QuickQuizChild
+ * 
+ * @author Franciscus Sluyter
+ * 
+ * Developed: 2019
+ * 
+ * Purpose: Java application that receives messages that contain questions from 
+ * an instructor via a network. the question and potential answer are put into
+ * text areas. the student is require to put their name and an answer before submitting
+ * their answer.
+ * 
+ */
 package quincy.squickquizbynetwork;
 
 //<editor-fold defaultstate="collapsed" desc="Libraries">
@@ -19,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.SpringLayout;
 //</editor-fold>
 
+// Primary Class File - QuincySQuickQuizByNetwork
 public class QuickQuizChild extends JFrame implements ActionListener
 {
     //<editor-fold defaultstate="collapsed" desc="Global Variables">
@@ -38,15 +51,23 @@ public class QuickQuizChild extends JFrame implements ActionListener
     
     String sendString;
     
+    //CHAT RELATED ---------------------------
     private Socket socket = null;
     private DataInputStream console = null;
     private DataOutputStream streamOut = null;
     private ChatClientThread2 client2 = null;
     private String serverName = "localhost";
     private int serverPort = 4444;
+    //----------------------------------------
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Runtime">
+    /**-------------------------------------------------------------------------
+     * Purpose: the start point of the class and application.        
+     * @param args (an array of string based arguments)
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public static void main(String[] args)
     {
         QuickQuizChild QuizSystem = new QuickQuizChild();
@@ -54,6 +75,13 @@ public class QuickQuizChild extends JFrame implements ActionListener
 
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: Sets up the form and it's various listeners, reads the data
+     *          file, and connects to the chat server
+     * @param None.
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     private void run()
     {
         //sets up all the window based functions bounds, title, listeners, etc.
@@ -90,7 +118,14 @@ public class QuickQuizChild extends JFrame implements ActionListener
 
         setVisible(true);
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Constructor for the class: QuincySQuickQuizByNetwork.
+     *          Sets up the form layout
+     * @param None.
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     private void displayGUI()
     {
         //intializes all the frame's components
@@ -106,6 +141,14 @@ public class QuickQuizChild extends JFrame implements ActionListener
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Component Properties">
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Method for managing the addition of multiple labels to the screen
+     * 
+     * @param The Layout manager in use (SpringLayout, Layout).
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     private void displayLabels(SpringLayout layout)
     {
         lblTitle = LibraryComponents.LocateAJLabel(this, layout, "Quincy's Quick Quizzes", 5, 5, 435, 60, 23, 0, 102, 0, 255, 255, 255, "", "");
@@ -118,7 +161,13 @@ public class QuickQuizChild extends JFrame implements ActionListener
         lblAnswerD = LibraryComponents.LocateAJLabel(this, layout, "D:", 5, 318, 435, 40, 16, 230, 237, 215, 0, 102, 0, "left", "top");
         lblStudentAns = LibraryComponents.LocateAJLabel(this, layout, "Your Answer:", 5, 365, 435, 22, 16, 230, 237, 215, 0, 102, 0, "left", "");
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Method for managing the new TextAreas that are being added to the screen
+     * @param The layout manager being used (SpringLayout, layout).
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     public void displayTextAreas(SpringLayout layout)
     {
         txtStudentName = LibraryComponents.LocateAJTextArea(this, layout, 91, 81, 31, 1);
@@ -131,10 +180,17 @@ public class QuickQuizChild extends JFrame implements ActionListener
         txtStudentAns = LibraryComponents.LocateAJTextArea(this, layout, 98, 369, 1, 1);
         txtServerDialog = LibraryComponents.LocateAJTextArea(this, layout, 6, 395, 39, 4);
         
+        // setting these text areas to editable due to textareas being uneditable by default
         txtStudentAns.setEditable(true);
         txtStudentName.setEditable(true);
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: Method for managing the addition of multiple Buttons to the screen.
+     * @param   The Layout manager being used (SpringLayout, Layout).
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */
     private void displayButtons(SpringLayout layout)
     {
         btnSendQuestion = LibraryComponents.LocateAJButton(this, this, layout, "Submit Answer", 135, 365, 304, 22, 15);
@@ -143,6 +199,12 @@ public class QuickQuizChild extends JFrame implements ActionListener
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Event Listeners">
+    /**-------------------------------------------------------------------------
+     * Purpose: Respond to user action events, this will be whatever button is click on the UI
+     * @param  args Array of String arguments.
+     * @returns N/A
+     * -------------------------------------------------------------------------
+     */ 
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -161,6 +223,13 @@ public class QuickQuizChild extends JFrame implements ActionListener
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Server Methods">
+    /**-------------------------------------------------------------------------
+     * Purpose: connects to the chat server       
+     * @param serverName a string of the server's name
+     * @param serverPort the port value of the server
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void connect(String serverName, int serverPort)
     {
         System.out.println("Establishing connection. Please wait ...");
@@ -180,6 +249,13 @@ public class QuickQuizChild extends JFrame implements ActionListener
         }
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: sends a message to the server and then to any other open clients
+     *          including itself. used by the instructor to count student programs
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     private void sendForCount()
     {
         try
@@ -195,6 +271,13 @@ public class QuickQuizChild extends JFrame implements ActionListener
         }
     }
     
+    /**-------------------------------------------------------------------------
+     * Purpose: sends a message to the server and then to any other open clients
+     *          including itself. used by the instructor to keep of count student programs
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     private void sendForCountdown()
     {
         try
@@ -209,7 +292,14 @@ public class QuickQuizChild extends JFrame implements ActionListener
             close();
         }
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: sends a message to the server and then to any other open clients
+     *          including itself
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     private void send()
     {
         try
@@ -226,7 +316,13 @@ public class QuickQuizChild extends JFrame implements ActionListener
             close();
         }
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: getting messages from other client     
+     * @param msg string of what has been received from the server
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void handle(String msg)
     {
         if (msg.equals(".bye"))
@@ -242,7 +338,13 @@ public class QuickQuizChild extends JFrame implements ActionListener
             DisplayHandleData();
         }
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: opens a thread and socket for the server       
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void open()
     {
         try
@@ -255,7 +357,13 @@ public class QuickQuizChild extends JFrame implements ActionListener
             System.out.println("Error opening output stream: " + ioe);
         }
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: closes the socket and threads       
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void close()
     {
         try
@@ -276,7 +384,13 @@ public class QuickQuizChild extends JFrame implements ActionListener
         client2.close();
         client2.stop();
     }
-
+    
+    /**-------------------------------------------------------------------------
+     * Purpose: server name and port used for connection       
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void getParameters()
     {
 //        serverName = getParameter("host");
@@ -289,6 +403,12 @@ public class QuickQuizChild extends JFrame implements ActionListener
     
     //<editor-fold defaultstate="collapsed" desc="Question Functions">
     
+    /**-------------------------------------------------------------------------
+     * Purpose: a variety of functions related to receiving messages from other clients   
+     * @param none
+     * @returns None (as it's void)
+    ----------------------------------------------------------------------------
+    */
     public void DisplayHandleData()
     {
         // Split the line of data (from the text file) and put each entry into the
